@@ -35,7 +35,9 @@ print "What ports do you want to expose? (I. e. 3000-3005 4000): "
   args << "-p #{port.match(/:/) ? port : "#{port}:#{port}"}"
 end
 
-puts "docker create -it #{args.join(' ')} --name #{name} --hostname #{name} botanicus/dev"
+# Host networking means that the container IP is the same as the host IP (no need to tweat tmux status line).
+# https://docs.docker.com/network/host/
+puts "docker create -it #{args.join(' ')} --network host --name #{name} --hostname #{name} botanicus/dev"
 puts "docker start #{name}"
 puts "docker attach #{name}"
 
