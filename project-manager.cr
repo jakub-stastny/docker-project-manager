@@ -1,7 +1,7 @@
 Signal::INT.trap { exit }
 
 unless ARGV.size > 0
-  abort "Usage: #{PROGRAM_NAME} my-project"
+  abort "Usage: #{PROGRAM_NAME} <command>"
 end
 
 puts "~ Welcome to the Docker project manager!"
