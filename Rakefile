@@ -6,11 +6,11 @@ task :build do
 end
 
 desc "Test the project manually"
-task try: :build do
-  sh "docker run -it --rm #{REPO}"
+task :try do
+  sh "crystal run project-manager.cr -- test-project DROPBOX_ACCESS_KEY"
 end
 
-desc "Run locally"
-task :run do
-  sh "crystal run project-manager.cr -- test-project"
+desc "Test the project manually in Docker"
+task 'docker:try' => :build do
+  sh "docker run -it --rm #{REPO} test-project DROPBOX_ACCESS_KEY"
 end
