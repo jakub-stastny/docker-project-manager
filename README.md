@@ -10,7 +10,7 @@ Written in Crystal, distributed as a Docker multi-stage build image.
 
 ```
 docker pull botanicus/docker-project-manager
-docker run -it --rm botanicus/docker-project-manager MY-PROJECT ENV_VAR_1 ENV_VAR_2
+docker run -it --rm botanicus/docker-project-manager MY-PROJECT ENV_VAR_1 ENV_VAR_2=test
 ```
 
 # Development

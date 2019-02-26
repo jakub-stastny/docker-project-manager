@@ -7,16 +7,20 @@ end
 puts "~ Welcome to the Docker project manager!"
 name = ARGV[0]
 args = Array(String).new
-env_var_keys = ARGV[1..-1]
+env_vars = ARGV[1..-1]
 volumes = ["/var/run/docker.sock", "~/.ssh", "~/#{name}"]
 
-if env_var_keys.empty?
+if env_vars.empty?
   puts "~ No environment variables are going to be exposed."
 end
 
-env_var_keys.each do |var_name|
-  print "#{var_name}: "
-  var_content = (STDIN.gets || "").chomp
+env_vars.each do |var_name|
+  if var_name.match(/=/)
+    var_name, var_content = var_name.split("=")
+  else
+    print "#{var_name}: "
+    var_content = (STDIN.gets || "").chomp
+  end
   abort "#{var_name} cannot be empty." if var_content.empty?
   args << "-e #{var_name}=#{var_content}"
 end
