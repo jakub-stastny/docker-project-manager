@@ -1,5 +1,6 @@
+# puts "~ Welcome to the project manager!"
 # name = ARGV.shift || abort("Usage: #$0 project_name")
-# args = Array.new
+# args = Array(String).new
 # ports = %W[3000-3005 4000-4005]
 # environment = %W[DROPBOX_ACCESS_TOKEN PROWL_API_KEY]
 # volumes = %W[/var/run/docker.sock ~/.ssh ~/#{name}]

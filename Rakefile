@@ -9,3 +9,8 @@ desc "Test the project manually"
 task try: :build do
   sh "docker run -it --rm #{REPO}"
 end
+
+desc "Run locally"
+task :run do
+  sh "crystal run project-manager.cr -- test-project"
+end
