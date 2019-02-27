@@ -18,6 +18,7 @@ docker run -it --rm botanicus/docker-project-manager MY-PROJECT ENV_VAR_1 ENV_VA
 ```
 rake -T
 # rake build       # Build the image
+# rake sh          # Run SH in the image
 # rake docker:try  # Test the project manually in Docker
 # rake try         # Test the project manually
 ```
