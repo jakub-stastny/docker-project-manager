@@ -19,3 +19,8 @@ desc "Test the project manually in Docker"
 task 'docker:try' => :build do
   sh "docker run -it --rm #{REPO} test-project DROPBOX_ACCESS_KEY PROWL_API_KEY=test"
 end
+
+desc "Run the tests"
+task :test do
+  sh "crystal spec"
+end
