@@ -1,7 +1,35 @@
-require "./commands/*"
-
-module Docker::Project::Manager
+module DockerProjectManager
   VERSION = "0.1.0"
 
-  # TODO: Put your code here
+  abstract class Command
+    def self.commands : Hash(String, self.class)
+      @@commands ||= Hash(String, self.class).new
+    end
+
+    macro inherited
+      command_class = {{ @type.name.id }}
+      command_name = "{{ @type.name.id }}".split("::").last.downcase
+      self.commands[command_name] = command_class
+    end
+
+    def self.run(args)
+      Signal::INT.trap { exit }
+
+      unless args.size > 0
+        abort "Usage: #{PROGRAM_NAME} <command>"
+      end
+
+      if command = self.commands[args.first]
+        command.run(args[1..-1])
+      else
+        abort "No such command: #{args.first}\nAvailable commands: #{self.commands.keys.join(", ")}"
+      end
+    end
+  end
 end
+
+# Main.
+# require "./commands/*"
+class DockerProjectManager::Bootstrap < DockerProjectManager::Command end
+
+DockerProjectManager::Command.run(ARGV)

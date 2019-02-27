@@ -1,9 +1,6 @@
 require "./spec_helper"
 
-describe Docker::Project::Manager do
-  # TODO: Write tests
-
-  it "works" do
-    false.should eq(true)
+describe DockerProjectManager::Command do
+  describe ".run" do
   end
 end
