@@ -30,6 +30,12 @@ This is possible and all the projects are automatically configured to support Do
 
 That way every container feels like a real VM with no limitations.
 
+## Per-project VPS vs. per-project container
+
+Before starting this, I would be using a per-project VPS. It's a very practical approach, especially for freelancers: once you're done with a project, you just delete the VPS and that's it. No mess is left behind.
+
+With that said, there's an overhead with that. It's much easier to use just one VPS and run everything in containers that are behaving as full VMs, having root access (within container), Docker access (via Docker-in-Docker), everything just like on a standalone VPS. Besides, it's also cheaper.
+
 ## Isolation
 
 So on our development VPS, instead of spinning this image and doing everything in it, it makes sense to spin a container for each project we are working on.
@@ -48,6 +54,12 @@ That's why every project has its folder. It typically has:
 - **SSH keys directory** and **shell history file** to be shared as volumes inside the container.
 
 Note that there's no global state. It makes sense to isolate everything per project. If you want for instance use the same pair of SSH keys, just copy them to the project directory. This way it's all predictable and there are no surprises.
+
+## Beyond VPS life
+
+With a vanilla setup like this, there's little reason to scrape the dev VPS, as there's virtually no risk we'd mess it up, creating the need to scrape it and reinstall it.
+
+With that said, I'd like to add [Dropbox sync](https://github.com/botanicus/docker-project-manager/issues/7) in the future.
 
 # Usage
 
