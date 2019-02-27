@@ -1,4 +1,5 @@
-# TODO: Write documentation for `Docker::Project::Manager`
+require "./commands/*"
+
 module Docker::Project::Manager
   VERSION = "0.1.0"
 
