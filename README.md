@@ -36,6 +36,19 @@ Before starting this, I would be using a per-project VPS. It's a very practical 
 
 With that said, there's an overhead with that. It's much easier to use just one VPS and run everything in containers that are behaving as full VMs, having root access (within container), Docker access (via Docker-in-Docker), everything just like on a standalone VPS. Besides, it's also cheaper.
 
+## Multi-repo containers
+
+While each container should have only 1 project, it's perfectly reasonable that such project contains of multiple repositories.
+
+For instance if you're writing a Ruby web app and you have a need to extract a library out of it, it makes sense to develop it in the same container. Especially as that allows us to point Bundler to the local library.
+
+The typical setup would be via exposing multiple volumes:
+
+```
+VOLUME my_app
+VOLUME my_gem
+```
+
 ## Isolation
 
 So on our development VPS, instead of spinning this image and doing everything in it, it makes sense to spin a container for each project we are working on.
