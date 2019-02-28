@@ -1,8 +1,21 @@
 module DockerProjectManager
-  class CommandError < Exception
+  class CommandError < Exception end
+
+  class NoCommandError < CommandError
+    def initialize
+      super("Usage: #{PROGRAM_NAME} <command>")
+    end
+  end
+
+  class NoSuchCommandError < CommandError
+    def initialize(command, available_commands)
+      super("No such command: #{command}\nAvailable commands: #{available_commands.keys.join(", ")}")
+    end
   end
 
   abstract class Command
+    def initialize(@args) end
+
     def self.commands : Hash(String, Command.class)
       @@commands ||= Hash(String, Command.class).new
     end
@@ -17,14 +30,17 @@ module DockerProjectManager
       Signal::INT.trap { exit }
 
       unless args.size > 0
-        raise CommandError.new("Usage: #{PROGRAM_NAME} <command>")
+        raise NoCommandError.new
       end
 
-      if command = self.commands[args.first]
-        command.run(args[1..-1])
-      else
-        raise CommandError.new("No such command: #{args.first}\nAvailable commands: #{self.commands.keys.join(", ")}")
-      end
+      command = self.command(args.first)
+      command.run(args[1..-1])
+    end
+
+    private def self.command(command_name) : Command.class
+      self.commands[command_name]
+    rescue KeyError
+      raise NoSuchCommandError.new(command_name, self.commands)
     end
   end
 end
