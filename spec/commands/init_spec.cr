@@ -11,9 +11,15 @@ describe DockerProjectManager::Init do
     end
 
     it "creates a directory matching the project name" do
-      command = DockerProjectManager::Init.new("init", ["my-blog"])
+      command = DockerProjectManager::Init.new("init", ["my-blog", "../../templates"])
       tmp do
         command.run
+
+        Dir.exists?("my-blog").should be_true
+        Dir.cd "my-blog"
+        File.exists?("README.md").should be_true
+        File.exists?("Dockerfile").should be_true
+        File.read("README.md").should_not match(/project_name/)
       end
     end
   end
