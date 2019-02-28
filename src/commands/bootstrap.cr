@@ -1,6 +1,6 @@
 class DockerProjectManager::Bootstrap < DockerProjectManager::Command
   def run
-    unless ARGV.size > 0
+    unless @argv.size > 0
       abort "Usage: #{PROGRAM_NAME} <command>"
     end
 

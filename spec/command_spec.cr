@@ -2,6 +2,9 @@ require "../src/command"
 require "./spec_helper"
 
 class DockerProjectManager::Test < DockerProjectManager::Command
+  def validate : Nil
+  end
+
   def run : Array(String)
     @args
   end
@@ -15,19 +18,23 @@ describe DockerProjectManager::Command do
   end
 
   describe ".run" do
-    it "requires a command" do
+    it "requires a command as the first command-line argument" do
       expect_raises(DockerProjectManager::NoCommandError) do
         DockerProjectManager::Command.run(Array(String).new)
       end
     end
 
-    it "requires a registered command" do
+    it "requires a command of such name to be registered" do
       expect_raises(DockerProjectManager::NoSuchCommandError) do
         DockerProjectManager::Command.run(["hola"])
       end
     end
 
-    it "runs the #run method of a command" do
+    pending "runs the command's #validate method" do
+      # TODO
+    end
+
+    it "runs the command's #run method" do
       DockerProjectManager::Command.run(["test"]).should eq(Array(String).new)
     end
 

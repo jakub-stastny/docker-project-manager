@@ -2,14 +2,20 @@ module DockerProjectManager
   class CommandError < Exception end
 
   class NoCommandError < CommandError
-    def initialize
-      super("Usage: #{PROGRAM_NAME} <command>")
+    def initialize(available_commands : Array(String))
+      super("Usage: #{PROGRAM_NAME} <command>\nAvailable commands: #{available_commands.join(", ")}")
     end
   end
 
   class NoSuchCommandError < CommandError
     def initialize(command : String, available_commands : Array(String))
       super("No such command: #{command}\nAvailable commands: #{available_commands.join(", ")}")
+    end
+  end
+
+  class CommandArgumentError < CommandError
+    def initialize(usage : String)
+      super("Usage: #{usage}")
     end
   end
 
@@ -29,10 +35,13 @@ module DockerProjectManager
     def self.run(args)
       Signal::INT.trap { exit }
 
-      raise NoCommandError.new if args.empty?
+      unless args.size > 0
+        raise NoCommandError.new(self.commands.keys)
+      end
 
       command_class = self.command(args.first)
       command = command_class.new(args[1..-1])
+      command.validate
       command.run
     end
 
