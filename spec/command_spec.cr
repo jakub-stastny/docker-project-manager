@@ -27,12 +27,12 @@ describe DockerProjectManager::Command do
       end
     end
 
-#     it "runs the #run method of a command" do
-#       DockerProjectManager::Command.run(["test"]).should eq(Array(String).new)
-#     end
+    it "runs the #run method of a command" do
+      DockerProjectManager::Command.run(["test"]).should eq(Array(String).new)
+    end
 
-    # it "passes arguments to the initializer" do
-    #   DockerProjectManager::Command.run(["test", "uno", "dos", "tres"]).should eq(["uno", "dos", "tres"])
-    # end
+    it "passes arguments to the initializer" do
+      DockerProjectManager::Command.run(["test", "uno", "dos", "tres"]).should eq(["uno", "dos", "tres"])
+    end
   end
 end
