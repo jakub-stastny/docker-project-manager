@@ -2,8 +2,8 @@ module DockerProjectManager
   VERSION = "0.1.0"
 
   abstract class Command
-    def self.commands : Hash(String, self.class)
-      @@commands ||= Hash(String, self.class).new
+    def self.commands : Hash(String, Command.class)
+      @@commands ||= Hash(String, Command.class).new
     end
 
     macro inherited
@@ -29,7 +29,6 @@ module DockerProjectManager
 end
 
 # Main.
-# require "./commands/*"
-class DockerProjectManager::Bootstrap < DockerProjectManager::Command end
+require "./commands/*"
 
 DockerProjectManager::Command.run(ARGV)
