@@ -23,7 +23,7 @@ module DockerProjectManager
     macro inherited
       command_class = {{ @type.name.id }}
       command_name = "{{ @type.name.id }}".split("::").last.downcase
-      Command.commands[command_name] = command_class
+      self.commands[command_name] = command_class
     end
 
     def self.run(args)
@@ -31,12 +31,12 @@ module DockerProjectManager
 
       raise NoCommandError.new if args.empty?
 
-      command_class = Command.command(args.first)
+      command_class = self.command(args.first)
       command = command_class.new(args[1..-1])
       command.run
     end
 
-    def self.command(command_name) : Command.class
+    def self.command(command_name) : self.class
       self.commands[command_name]
     rescue KeyError
       raise NoSuchCommandError.new(command_name, self.commands.keys)
