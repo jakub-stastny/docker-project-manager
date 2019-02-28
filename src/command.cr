@@ -20,7 +20,8 @@ module DockerProjectManager
   end
 
   abstract class Command
-    def initialize(@args : Array(String)) end
+    def initialize(@name : String, @args : Array(String))
+    end
 
     def self.commands : Hash(String, Command.class)
       @@commands ||= Hash(String, Command.class).new
@@ -40,7 +41,7 @@ module DockerProjectManager
       end
 
       command_class = self.command(args.first)
-      command = command_class.new(args[1..-1])
+      command = command_class.new(args.first, args[1..-1])
       command.validate
       command.run
     end

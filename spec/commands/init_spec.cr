@@ -9,6 +9,13 @@ describe DockerProjectManager::Init do
         DockerProjectManager::Command.run(Array(String).new)
       end
     end
+
+    it "creates a directory matching the project name" do
+      command = DockerProjectManager::Init.new("init", ["my-blog"])
+      tmp do
+        command.run
+      end
+    end
   end
 end
 
