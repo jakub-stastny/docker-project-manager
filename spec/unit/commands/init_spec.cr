@@ -1,15 +1,18 @@
-require "../../src/command"
-require "../../src/commands/init"
-require "./../spec_helper"
+require "command"
+require "commands/init"
+require "spec_helper"
 
 describe DockerProjectManager::Init do
   describe "#run" do
-    it "requires an argument" do
-      expect_raises(DockerProjectManager::NoCommandError) do
-        DockerProjectManager::Command.run(Array(String).new)
-      end
-    end
+    # it "requires an argument" do
+    #   expect_raises(DockerProjectManager::NoCommandError) do
+    #     DockerProjectManager::Command.run(["init"])
+    #   end
+    # end
 
+    # TODO: Move this to E2E tests.
+    # This should only test #validate, #usage etc.
+    # The #run method needs to be tested in a more holistic manner.
     it "creates a directory matching the project name" do
       command = DockerProjectManager::Init.new("init", ["my-blog", "../../templates"])
       tmp do
