@@ -53,6 +53,21 @@ class DockerProjectManager::Init < DockerProjectManager::Command
         self.process_template(File.new(path))
       end
     end
+
+    puts "Congratulations! You initiated project #{self.project_name}.\n\n"
+    puts "Things to note:\n\n"
+    puts "* A pair of SSH keys has been generated into #{self.project_name}/.ssh."
+    puts "  The directory with the keys is mounted as a volume and"
+    puts "  is available within your dev environment."
+    puts "  You'll most likely want to add the public key into your"
+    puts "  GitHub/GitLab account.\n\n"
+    puts "* If this is an existing project, you'll want to clone the repo:"
+    puts "  dev $ git clone repo my_repo/.git --bare"
+    puts "  dev $ git checkout .\n\n"
+    puts "* Use dpm create to build Docker image off #{self.project_name}/Dockerfile."
+    puts "  Note that DPM automatically mounts volumes and publishes ports"
+    puts "  defined in the Dockerfile.\n\n"
+    puts "  For more detail, see the documentation in #{self.project_name}/Dockerfile."
   end
 
   # Hopefully Crystal gets Path, so we don't have to use this ugly
