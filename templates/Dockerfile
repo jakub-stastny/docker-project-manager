@@ -27,5 +27,13 @@ VOLUME /root/.history
 VOLUME /root/.ssh
 VOLUME /root/{{ project_name }}
 
+# Beware, magic ahead!
+# A common directory that you want to persist out of the scope of the repository is
+# the Git hooks directory. It's an easy thing to do, however there is one caveat:
+# You have to clone your repository first.
+#
+# This is why it's commented out by default. Uncomment it when you're ready to roll.
+#VOLUME /root/{{ project_name }}/.git/hooks
+
 # Just like DPM dictates where the volumes gets mounted, all the exposed ports are also published.
 #EXPOSE 3000
