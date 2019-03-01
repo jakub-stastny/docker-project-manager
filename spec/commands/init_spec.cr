@@ -24,4 +24,3 @@ describe DockerProjectManager::Init do
     end
   end
 end
-

@@ -28,7 +28,7 @@ class DockerProjectManager::Init < DockerProjectManager::Command
   end
 
   # TODO: This is temporary, it will behave differently on Travis, in Docker etc.
-  def template_dir
+  def template_dir : String
     @args[1] || "/root/docker-project-manager/templates"
   end
 
@@ -37,8 +37,8 @@ class DockerProjectManager::Init < DockerProjectManager::Command
     Dir.cd(self.project_name) do
       Dir.mkdir(self.project_name)
       Dir.mkdir(".ssh")
-      Dir.glob("#{template_dir}/*").each do |file_name|
-        process_template file_name
+      Dir.glob("#{template_dir}/*").each do |path|
+        self.process_template(path)
       end
     end
 
@@ -46,11 +46,11 @@ class DockerProjectManager::Init < DockerProjectManager::Command
     # Generate SSH keys (this requires external software).
   end
 
-  def process_template(file_name : String) : Nil
-    template_body = File.read(file_name)
-    template_body = template_body.gsub /{{\s*project_name\s*}}/, project_name
-    File.open(File.basename(file_name), "w") do |f|
-      f.print template_body
+  def process_template(path : String) : Nil
+    template_body = File.read(path)
+    template_body = template_body.gsub(/{{\s*project_name\s*}}/, project_name)
+    File.open(File.basename(path), "w") do |file|
+      file.puts(template_body)
     end
   end
 end

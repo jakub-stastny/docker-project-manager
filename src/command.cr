@@ -1,5 +1,6 @@
 module DockerProjectManager
-  class CommandError < Exception end
+  class CommandError < Exception
+  end
 
   class NoCommandError < CommandError
     def initialize(available_commands : Array(String))
