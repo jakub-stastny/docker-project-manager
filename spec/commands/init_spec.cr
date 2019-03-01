@@ -20,6 +20,10 @@ describe DockerProjectManager::Init do
         File.exists?("README.md").should be_true
         File.exists?("Dockerfile").should be_true
         File.read("README.md").should_not match(/project_name/)
+
+        Dir.exists?(".ssh").should be_true
+        File.exists?(".ssh/id_rsa").should be_true
+        File.exists?(".ssh/id_rsa.pub").should be_true
       end
     end
   end
