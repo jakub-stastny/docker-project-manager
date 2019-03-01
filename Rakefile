@@ -8,7 +8,7 @@ namespace :docker do
 
   desc "Run SH in the image"
   task :sh do
-    sh "docker run -it --rm --entrypoint /bin/sh #{REPO}"
+    sh "docker run -it --rm -v $PWD/tmp:/projects --entrypoint /bin/sh #{REPO}"
   end
 
   namespace :test do
@@ -30,8 +30,8 @@ namespace :test do
 end
 
 desc "Run the tests"
-task :test do
-  sh "crystal spec"
+task test: 'docker:build' do
+  sh "bundle exec rspec"
 end
 
 desc "Format the code based on the Crystal conventions"

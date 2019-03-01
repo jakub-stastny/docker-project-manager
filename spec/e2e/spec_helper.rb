@@ -15,7 +15,7 @@ end
 RSpec.configure do |config|
   config.include ShellCommandInspector, :command
 
-  config.before(:all) do
-    system("rm -rf tmp; true")
-  end
+  # config.before(:all) do
+  #   system("rm -rf tmp; true")
+  # end
 end

@@ -13,7 +13,7 @@ describe "init", :command do
     end
   end
 
-  context "one argument" do
+  context "with one argument" do
     let(:command) do
       "docker run --rm -v $PWD/tmp:/projects botanicus/docker-project-manager init my-project"
     end
