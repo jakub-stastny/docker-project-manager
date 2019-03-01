@@ -15,7 +15,7 @@ namespace :docker do
     desc "Manually test the init command"
     task :init do
       sh "rm -rf tmp &> /dev/null; mkdir tmp"
-      sh "docker run -it --rm -v tmp:/root/projects botanicus/docker-project-manager init my-blog"
+      sh "docker run -it --rm -v $PWD/tmp:/projects botanicus/docker-project-manager init my-blog"
     end
   end
 end
@@ -23,8 +23,9 @@ end
 namespace :test do
   desc "Manually test the init command"
   task :init do
-    #sh "rm -rf tmp &> /dev/null; mkdir -p tmp/projects"
-    sh "crystal run ../src/docker-project-manager.cr -- init my-blog"
+    # NOTE that we cannot change the current directory with crystal run, it won't find the shards.
+    sh "rm -rf my-blog"
+    sh "crystal run src/docker-project-manager.cr -- init my-blog"
   end
 end
 

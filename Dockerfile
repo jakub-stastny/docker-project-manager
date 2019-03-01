@@ -8,4 +8,6 @@ RUN crystal build --release --static src/docker-project-manager.cr -o /src/proje
 FROM busybox
 WORKDIR /app
 COPY --from=builder /src/project-manager /app/project-manager
+COPY templates /app/templates
+WORKDIR /projects
 ENTRYPOINT ["/app/project-manager"]

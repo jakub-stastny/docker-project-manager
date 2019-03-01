@@ -31,7 +31,7 @@ module DockerProjectManager
     macro inherited
       command_class = {{ @type.name.id }}
       command_name = "{{ @type.name.id }}".split("::").last.downcase
-      self.commands[command_name] = command_class
+      Command.commands[command_name] = command_class
     end
 
     def self.run(args)
@@ -41,6 +41,7 @@ module DockerProjectManager
         raise NoCommandError.new(self.commands.keys)
       end
 
+      puts "~ Running command #{args.first} with arguments #{args[1..-1].inspect}"
       command_class = self.command(args.first)
       command = command_class.new(args.first, args[1..-1])
       command.validate

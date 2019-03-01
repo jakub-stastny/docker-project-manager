@@ -24,6 +24,14 @@ class DockerProjectManager::Init < DockerProjectManager::Command
     if self.project_name.match(/\//)
       raise CommandArgumentError.new("project name cannot match /")
     end
+
+    if Dir.exists?(self.project_name)
+      raise CommandError.new("Destination #{self.project_name} already exists.")
+    end
+
+    unless Dir.exists?(self.template_dir)
+      raise CommandError.new("Template directory #{self.template_dir} doesn't exist")
+    end
   end
 
   def project_name : String
@@ -32,7 +40,7 @@ class DockerProjectManager::Init < DockerProjectManager::Command
 
   # TODO: This is temporary, it will behave differently on Travis, in Docker etc.
   def template_dir : String
-    @args[1] || "/root/docker-project-manager/templates"
+    @args.size > 1 ? @args[1] : "/app/templates"
   end
 
   def run : Nil
@@ -44,7 +52,7 @@ class DockerProjectManager::Init < DockerProjectManager::Command
       Dir.mkdir(self.project_name)
 
       # SSH keys.
-      Dir.mkdir(".ssh")
+      Dir.mkdir(".ssh", 700)
       key_pair = SSHKeyPair.new
       key_pair.save(".ssh")
 
