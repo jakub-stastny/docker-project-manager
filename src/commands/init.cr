@@ -9,6 +9,8 @@
 
 # This should all happen in ~/projects.
 class DockerProjectManager::Init < DockerProjectManager::Command
+  PROJECT_NAME_REGEXP = /{{\s*project_name\s*}}/
+
   def usage : String
     "#{@name} [project_name]"
   end
@@ -38,7 +40,7 @@ class DockerProjectManager::Init < DockerProjectManager::Command
       Dir.mkdir(self.project_name)
       Dir.mkdir(".ssh")
       Dir.glob("#{template_dir}/*").each do |path|
-        self.process_template(path)
+        self.process_template(File.new(path))
       end
     end
 
@@ -46,11 +48,15 @@ class DockerProjectManager::Init < DockerProjectManager::Command
     # Generate SSH keys (this requires external software).
   end
 
-  def process_template(path : String) : Nil
-    template_body = File.read(path)
-    template_body = template_body.gsub(/{{\s*project_name\s*}}/, project_name)
-    File.open(File.basename(path), "w") do |file|
-      file.puts(template_body)
+  # Hopefully Crystal gets Path, so we don't have to use this ugly
+  # class methods API such as File.basename.
+  #
+  # https://github.com/crystal-lang/crystal/issues/5550
+  def process_template(file : File) : Nil
+    template = file.gets_to_end
+    content = template.gsub(PROJECT_NAME_REGEXP, self.project_name)
+    File.open(File.basename(file.path), "w") do |file|
+      file.puts(content)
     end
   end
 end

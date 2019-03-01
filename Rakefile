@@ -24,3 +24,8 @@ desc "Run the tests"
 task :test do
   sh "crystal spec"
 end
+
+desc "Format the code based on the Crystal conventions"
+task :format do
+  sh "crystal tool format"
+end
