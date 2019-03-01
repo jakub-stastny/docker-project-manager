@@ -49,16 +49,17 @@ describe "init", :command do
       Dir.chdir("tmp") do
         path = Pathname.new("my-project/.ssh")
         expect(path).to exist
-        expect(File.stat(path).mode).to eql(17068)
+        expect(sprintf("%o", File.stat(path).mode)).to eql("41254")
 
         key_path = path.join("id_rsa")
         expect(key_path).to exist
         expect(File.stat(key_path).mode).to eql(33188)
+        expect(sprintf("%o", File.stat(key_path).mode)).to eql("100644")
         expect(key_path.read).to match(/-+BEGIN PRIVATE KEY-+/)
 
         key_path = path.join("id_rsa.pub")
         expect(key_path).to exist
-        expect(File.stat(key_path).mode).to eql(33152)
+        expect(sprintf("%o", File.stat(key_path).mode)).to eql("100600")
         expect(key_path.read).to match(/-+BEGIN PUBLIC KEY-+/)
       end
     end
