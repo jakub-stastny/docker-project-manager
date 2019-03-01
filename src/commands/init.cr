@@ -48,9 +48,6 @@ class DockerProjectManager::Init < DockerProjectManager::Command
     Dir.mkdir(self.project_name)
 
     Dir.cd(self.project_name) do
-      # Default repository path.
-      Dir.mkdir(self.project_name)
-
       # SSH keys.
       Dir.mkdir(".ssh", 700)
       key_pair = SSHKeyPair.new
