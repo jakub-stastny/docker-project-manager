@@ -4,6 +4,9 @@
 # Your base dev image with your tools and configuration.
 FROM botanicus/dev:latest
 
+# Your secret variables.
+#ENV AWS_TOKEN 1234567890
+
 # Do any setup here.
 #RUN ...
 
