@@ -76,11 +76,17 @@ With that said, I'd like to add [Dropbox sync](https://github.com/botanicus/dock
 
 # Usage
 
-_This is changing._
-
 ```
 docker pull botanicus/docker-project-manager
-docker run -it --rm botanicus/docker-project-manager MY-PROJECT ENV_VAR_1 ENV_VAR_2=test
+mkdir ~/projects
+```
+
+## The `init` command
+
+_TODO: Document using custom templates via getting the DPM templates using `docker cp`, tweaking them, and then mounting directory with these as a volume over the one in DPM._
+
+```
+docker run -it --rm -v ~/projects:/root/projects botanicus/docker-project-manager init my-blog
 ```
 
 # Development
@@ -94,4 +100,9 @@ rake -T
 # rake sh          # Run SH in the image
 # rake docker:try  # Test the project manually in Docker
 # rake try         # Test the project manually
+```
+
+```
+docker system df
+docker image prune
 ```

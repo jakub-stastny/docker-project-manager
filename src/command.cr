@@ -45,6 +45,8 @@ module DockerProjectManager
       command = command_class.new(args.first, args[1..-1])
       command.validate
       command.run
+    rescue error : CommandError
+      abort error.message
     end
 
     def self.command(command_name) : self.class

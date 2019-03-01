@@ -1,23 +1,31 @@
 REPO = 'botanicus/docker-project-manager'
 
-desc "Build the image"
-task :build do
-  sh "docker build . -t #{REPO}"
+namespace :docker do
+  desc "Build the image"
+  task :build do
+    sh "docker build . -t #{REPO}"
+  end
+
+  desc "Run SH in the image"
+  task :sh do
+    sh "docker run -it --rm --entrypoint /bin/sh #{REPO}"
+  end
+
+  namespace :test do
+    desc "Manually test the init command"
+    task :init do
+      sh "rm -rf tmp &> /dev/null; mkdir tmp"
+      sh "docker run -it --rm -v tmp:/root/projects botanicus/docker-project-manager init my-blog"
+    end
+  end
 end
 
-desc "Run SH in the image"
-task :sh do
-  sh "docker run -it --rm --entrypoint /bin/sh #{REPO}"
-end
-
-desc "Test the project manually"
-task :try do
-  sh "crystal run src/docker-project-manager.cr -- test-project DROPBOX_ACCESS_KEY PROWL_API_KEY=test"
-end
-
-desc "Test the project manually in Docker"
-task 'docker:try' => :build do
-  sh "docker run -it --rm #{REPO} test-project DROPBOX_ACCESS_KEY PROWL_API_KEY=test"
+namespace :test do
+  desc "Manually test the init command"
+  task :init do
+    #sh "rm -rf tmp &> /dev/null; mkdir -p tmp/projects"
+    sh "crystal run ../src/docker-project-manager.cr -- init my-blog"
+  end
 end
 
 desc "Run the tests"

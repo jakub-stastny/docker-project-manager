@@ -1,13 +1,16 @@
 class DockerProjectManager::Bootstrap < DockerProjectManager::Command
+  def validate
+  end
+
   def run
-    unless @argv.size > 0
+    unless @args.size > 0
       abort "Usage: #{PROGRAM_NAME} <command>"
     end
 
     puts "~ Welcome to the Docker project manager!"
-    name = ARGV[0]
+    name = @args[0]
     args = Array(String).new
-    env_vars = ARGV[1..-1]
+    env_vars = @args[1..-1]
     volumes = ["/var/run/docker.sock", "~/.ssh", "~/#{name}"]
 
     if env_vars.empty?
