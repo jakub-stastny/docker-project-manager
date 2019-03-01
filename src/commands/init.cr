@@ -1,11 +1,12 @@
+require "../ssh-key-pair"
+
 # dpm init my-blog
 #
 # Creates:
 # my-blog/README.md
 # my-blog/Dockerfile
 # my-blog/my-blog/
-# my-blog/.ssh/
-# my-blog/.history
+# my-blog/.ssh/{id_rsa,id_rsa.pub}
 
 # This should all happen in ~/projects.
 class DockerProjectManager::Init < DockerProjectManager::Command
@@ -35,17 +36,23 @@ class DockerProjectManager::Init < DockerProjectManager::Command
   end
 
   def run : Nil
+    # Base project directory.
     Dir.mkdir(self.project_name)
+
     Dir.cd(self.project_name) do
+      # Default repository path.
       Dir.mkdir(self.project_name)
+
+      # SSH keys.
       Dir.mkdir(".ssh")
+      key_pair = SSHKeyPair.new
+      key_pair.save(".ssh")
+
+      # Project templates.
       Dir.glob("#{template_dir}/*").each do |path|
         self.process_template(File.new(path))
       end
     end
-
-    # Read every file from templates, replace {{ project_name }} with the actual project name.
-    # Generate SSH keys (this requires external software).
   end
 
   # Hopefully Crystal gets Path, so we don't have to use this ugly

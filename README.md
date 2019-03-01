@@ -86,6 +86,9 @@ docker run -it --rm botanicus/docker-project-manager MY-PROJECT ENV_VAR_1 ENV_VA
 # Development
 
 ```
+apt install libgmp-dev # TODO: Move this into our derived Dockerfile (managed by DPM).
+shards             # Install the dependencies.
+
 rake -T
 # rake build       # Build the image
 # rake sh          # Run SH in the image
