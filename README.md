@@ -1,6 +1,7 @@
 # About
 
-[DockerHub](https://cloud.docker.com/repository/docker/botanicus/docker-project-manager/general)
+[![Build status][BS img]][Build status]
+[![DockerHub build][DH img]][DockerHub build status]
 
 Help managing Docker development environment lifecycle.
 
@@ -86,7 +87,7 @@ mkdir ~/projects
 _TODO: Document using custom templates via getting the DPM templates using `docker cp`, tweaking them, and then mounting directory with these as a volume over the one in DPM._
 
 ```
-docker run -it --rm -v ~/projects:/root/projects botanicus/docker-project-manager init my-blog
+docker run -it --rm -v ~/projects:/projects botanicus/docker-project-manager init my-blog
 ```
 
 # Development
@@ -106,3 +107,9 @@ rake -T
 docker system df
 docker image prune
 ```
+
+[Build status]: https://travis-ci.org/botanicus/docker-project-manager
+[DockerHub build status]: https://hub.docker.com/r/botanicus/docker-project-manager
+
+[BS img]: https://travis-ci.org/botanicus/docker-project-manager.svg?branch=master
+[DH img]: https://img.shields.io/docker/automated/jrottenberg/ffmpeg.svg
