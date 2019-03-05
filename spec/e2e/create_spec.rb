@@ -22,6 +22,7 @@ describe "create", :command do
     end
 
     it "succeeds and prints out the next steps" do
+      puts stderr
       expect(stdout[0]).to eql("docker build . -t my-project-dev-env")
       expect(stdout[1]).to match("docker create -v /var/run/docker.sock:/var/run/docker.sock -v /root/.history:/root/.history -v /root/.ssh:/root/.ssh -v /root/my-project:/root/my-project -p 3000:3000 my-project-dev-env")
       expect(stdout[2]).to match(/Next steps:/)

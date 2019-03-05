@@ -45,7 +45,12 @@ describe "init", :command do
       end
     end
 
-    it "generates SSH keys" do
+    pending "generates an executable runner" do
+      # TODO
+    end
+
+    # Issue #25
+    pending "generates SSH keys" do
       Dir.chdir("tmp") do
         path = Pathname.new("my-project/.ssh")
         expect(path).to exist
@@ -60,7 +65,11 @@ describe "init", :command do
         key_path = path.join("id_rsa.pub")
         expect(key_path).to exist
         expect(sprintf("%o", File.stat(key_path).mode)).to eql("100600")
-        expect(key_path.read).to match(/-+BEGIN PUBLIC KEY-+/)
+
+        parts = key_path.read.chomp("\n").split(" ")
+        expect(parts[0]).to eql("ssh-rsa")
+        expect(parts[1]).to match(/^[\w\/+]{372}$/)
+        expect(parts[2]).to eql("root@my-project")
       end
     end
   end

@@ -5,11 +5,11 @@ class DockerProjectManager::Create < DockerProjectManager::Command
   }
 
   def usage : String
-    "#{@name} [project_name]"
+    "#{@name} [project_name] [project_host_path]"
   end
 
   def validate : Nil
-    unless @args.size == 1
+    unless @args.size == 2
       raise CommandArgumentError.new(self.usage)
     end
 
@@ -34,7 +34,7 @@ class DockerProjectManager::Create < DockerProjectManager::Command
     "#{self.project_name}-dev-env"
   end
 
-  def absolute_project_root_path : String
+  def absolute_host_project_root_path : String
     @args[1]
   end
 
@@ -42,16 +42,16 @@ class DockerProjectManager::Create < DockerProjectManager::Command
     Dir.cd(self.project_name) do
       lines = File.read("Dockerfile").split("\n")
       definition = self.build_definition(lines)
-      volumes_args = definition["volume"].map { |path| "-v #{self.overwrite_path(path)}:#{path}" }.join(" ")
+      volumes_args = definition["volume"].map { |path| "-v #{path}:#{path}" }.join(" ")
       expose_args = definition["expose"].map { |port| "-p #{port}:#{port}" }.join(" ")
-      puts "cd #{self.absolute_project_root_path}"
+      puts "cd #{self.absolute_host_project_root_path}"
       puts "docker build . -t #{self.image_name}"
       # Host networking means that the container IP is the same as the host IP (no need to tweak tmux status line).
       # https://docs.docker.com/network/host/
       puts "docker create -it #{volumes_args} #{expose_args} --network host --name #{self.image_name} --hostname #{self.project_name} #{self.image_name}\n\n"
       puts "Next steps:"
-      puts "  $ docker start #{self.image_name}"
-      puts "  $ docker exec -it #{self.image_name} zsh -c 'tmux attach-session -d -t sys || (cd #{self.project_name} && tmux new-session -s sys)'"
+      puts "  $ ./runner start"
+      puts "  $ ./runner attach"
     end
   end
 
@@ -64,8 +64,8 @@ class DockerProjectManager::Create < DockerProjectManager::Command
   end
 
   private def overwrite_path(path) : String
-    if path.match(/^\/root\//)
-      path.sub(/^\/root/, self.absolute_project_root_path)
+    if path.match(/^\/projects\//)
+      path.sub(/^\/projects/, File.expand_path(self.absolute_project_root_path), "..")
     else
       path
     end

@@ -5,8 +5,8 @@ module ShellCommandInspector
   def self.included(base)
     base.instance_eval do
       let(:result) { Open3.capture3(command) }
-      let(:stdout) { result[0].split("\n").grep_v(/^(~ .+|)$/) }
-      let(:stderr) { result[1].split("\n") }
+      let(:stdout) { result[0].gsub(/\e.+m/, '').split("\n").grep_v(/^(~ .+|)$/) }
+      let(:stderr) { result[1].gsub(/\e.+m/, '').split("\n") }
       let(:status) { result[2].exitstatus }
     end
   end
