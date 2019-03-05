@@ -35,14 +35,14 @@ class DockerProjectManager::Create < DockerProjectManager::Command
   end
 
   def absolute_host_project_root_path : String
-    @args[1]
+    File.join(@args[1], self.project_name)
   end
 
   def run : Nil
     Dir.cd(self.project_name) do
       lines = File.read("Dockerfile").split("\n")
       definition = self.build_definition(lines)
-      volumes_args = definition["volume"].map { |path| "-v #{path}:#{path}" }.join(" ")
+      volumes_args = definition["volume"].map { |path| "-v #{self.overwrite_path(path)}:#{path}" }.join(" ")
       expose_args = definition["expose"].map { |port| "-p #{port}:#{port}" }.join(" ")
       puts "cd #{self.absolute_host_project_root_path}"
       puts "docker build . -t #{self.image_name}"
@@ -65,7 +65,7 @@ class DockerProjectManager::Create < DockerProjectManager::Command
 
   private def overwrite_path(path) : String
     if path.match(/^\/projects\//)
-      path.sub(/^\/projects/, File.expand_path(self.absolute_project_root_path), "..")
+      path.sub(/^\/projects/, self.absolute_host_project_root_path, "..")
     else
       path
     end

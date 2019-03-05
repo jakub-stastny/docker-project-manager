@@ -47,6 +47,7 @@ describe "init", :command do
 
     pending "generates an executable runner" do
       # TODO
+      raise Exception.new
     end
 
     # Issue #25

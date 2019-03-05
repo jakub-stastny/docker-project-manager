@@ -13,7 +13,7 @@ describe DockerProjectManager::Init do
     # TODO: Move this to E2E tests.
     # This should only test #validate, #usage etc.
     # The #run method needs to be tested in a more holistic manner.
-    it "creates a directory matching the project name" do
+    pending "creates a directory matching the project name" do
       command = DockerProjectManager::Init.new("init", ["my-blog", "../../templates"])
       tmp do
         command.run

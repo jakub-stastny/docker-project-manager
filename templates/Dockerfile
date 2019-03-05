@@ -26,9 +26,9 @@ FROM botanicus/dev:latest
 # However, DPM does dictates the structure, so it is making these assumptions.
 # So if you specify VOLUME {{ project_name}} here, DPM by default will mount
 # such volume to {{ project_name }} within the top-level {{ project_name }} directory.
-VOLUME /root/.history
-VOLUME /root/.ssh
-VOLUME /root/{{ project_name }}
+VOLUME /projects/.history
+VOLUME /projects/.ssh
+VOLUME /projects/{{ project_name }}
 
 # Beware, magic ahead!
 # A common directory that you want to persist out of the scope of the repository is
@@ -36,7 +36,7 @@ VOLUME /root/{{ project_name }}
 # You have to clone your repository first.
 #
 # This is why it's commented out by default. Uncomment it when you're ready to roll.
-#VOLUME /root/{{ project_name }}/.git/hooks
+#VOLUME /projects/{{ project_name }}/.git/hooks
 
 # Just like DPM dictates where the volumes gets mounted, all the exposed ports are also published.
 #EXPOSE 3000
