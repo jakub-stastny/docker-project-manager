@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# ANSI rainbow:
+# for (( i = 30; i < 38; i++ )); do echo -e "\033[0;"$i"m Normal: (0;$i); \033[1;"$i"m Light: (1;$i)"; done
+#
+# Or use tput https://stackoverflow.com/a/20983251
+
+BASE_DIR=$(pwd)
+PROJECT_NAME=$(basename $(pwd))
+IMAGE_NAME=$PROJECT_NAME-dev-env
+
+case $1 in
+  create)
+    docker build . -t $IMAGE_NAME
+    docker run --rm -v $BASE_DIR:/projects/$PROJECT_NAME botanicus/docker-project-manager create $IMAGE_NAME
+    ;;
+  rm|remove)
+    docker rm $IMAGE_NAME
+    ;;
+
+  start)
+    docker start $IMAGE_NAME ;;
+  stop)
+    docker stop $IMAGE_NAME ;;
+
+  a|attach)
+    docker exec -it $IMAGE_NAME zsh -c 'tmux attach-session -d -t sys || (cd sys && tmux new-session -s sys)' ;;
+
+  update)
+    echo "TODO"
+    ;;
+  *)
+    echo <<-EOF
+      $(tput bold)Usage:\033[0m $0 [create|remove|attach|update]
+
+      * $(tput setaf 2)create$(tput setaf 7): Build docker image from the Dockerfile and create a new container from this image.
+      * $(tput setaf 2)remove$(tput setaf 7): Remove the container, the image as well as all the untagged images.
+      * $(tput setaf 2)attach$(tput setaf 7): Create a new tmux session within the container or attach to an existing one.
+
+      * update: Update this script from GitHub.
+    EOF
+    ;;
+esac

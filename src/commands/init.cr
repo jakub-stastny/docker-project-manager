@@ -1,16 +1,17 @@
 require "../ssh-key-pair"
 
-# dpm init my-blog
+# docker run --rm -v ~/projects:/projects botanicus/docker-project-manager init my-project
+#   /projects is where all the projects are within the Docker image (WORKDIR /projects).
 #
 # Creates:
 # my-blog/README.md
 # my-blog/Dockerfile
-# my-blog/my-blog/
+# my-blog/runner
 # my-blog/.ssh/{id_rsa,id_rsa.pub}
 
-# This should all happen in ~/projects.
 class DockerProjectManager::Init < DockerProjectManager::Command
   PROJECT_NAME_REGEXP = /{{\s*project_name\s*}}/
+  TEMPLATE_DIR = "/app/templates"
 
   def usage : String
     "#{@name} [project_name]"
@@ -38,11 +39,6 @@ class DockerProjectManager::Init < DockerProjectManager::Command
     @args.first
   end
 
-  # TODO: This is temporary, it will behave differently on Travis, in Docker etc.
-  def template_dir : String
-    @args.size > 1 ? @args[1] : "/app/templates"
-  end
-
   def run : Nil
     # Base project directory.
     Dir.mkdir(self.project_name)
@@ -54,14 +50,14 @@ class DockerProjectManager::Init < DockerProjectManager::Command
       key_pair.save(".ssh")
 
       # Project templates.
-      Dir.glob("#{template_dir}/*").each do |path|
+      Dir.glob("#{TEMPLATE_DIR}/*").each do |path|
         self.process_template(File.new(path))
       end
     end
 
-    puts "Congratulations! You initiated project #{self.project_name}.\n\n"
+    puts "Congratulations! You initiated project #{self.project_name.colorize(:green)}.\n\n"
     puts "Things to note:\n\n"
-    puts "* A pair of SSH keys has been generated into #{self.project_name}/.ssh."
+    puts "* A pair of #{"SSH keys".colorize(:yellow)} has been generated into #{self.project_name}/.ssh."
     puts "  The directory with the keys is mounted as a volume and"
     puts "  is available within your dev environment."
     puts "  You'll most likely want to add the public key into your"
@@ -82,7 +78,8 @@ class DockerProjectManager::Init < DockerProjectManager::Command
   def process_template(file : File) : Nil
     template = file.gets_to_end
     content = template.gsub(PROJECT_NAME_REGEXP, self.project_name)
-    File.open(File.basename(file.path), "w") do |file|
+    mode = File.executable?(file.path) ? 0o755 : 0o644
+    File.open(File.basename(file.path), "w", mode) do |file|
       file.puts(content)
     end
   end

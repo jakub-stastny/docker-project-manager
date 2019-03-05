@@ -1,3 +1,5 @@
+require "colorize"
+
 module DockerProjectManager
   class CommandError < Exception
   end
@@ -21,9 +23,6 @@ module DockerProjectManager
   end
 
   abstract class Command
-    def initialize(@name : String, @args : Array(String))
-    end
-
     def self.commands : Hash(String, Command.class)
       @@commands ||= Hash(String, Command.class).new
     end
@@ -47,13 +46,16 @@ module DockerProjectManager
       command.validate
       command.run
     rescue error : CommandError
-      abort error.message
+      abort error.message.colorize(:red)
     end
 
     def self.command(command_name) : self.class
       self.commands[command_name]
     rescue KeyError
       raise NoSuchCommandError.new(command_name, self.commands.keys)
+    end
+
+    def initialize(@name : String, @args : Array(String))
     end
   end
 end

@@ -35,7 +35,7 @@ class DockerProjectManager::Create < DockerProjectManager::Command
   end
 
   def absolute_project_root_path : String
-    File.expand_path("~/projects/#{self.project_name}") # FIXME
+    @args[1]
   end
 
   def run : Nil
@@ -46,6 +46,8 @@ class DockerProjectManager::Create < DockerProjectManager::Command
       expose_args = definition["expose"].map { |port| "-p #{port}:#{port}" }.join(" ")
       puts "cd #{self.absolute_project_root_path}"
       puts "docker build . -t #{self.image_name}"
+      # Host networking means that the container IP is the same as the host IP (no need to tweak tmux status line).
+      # https://docs.docker.com/network/host/
       puts "docker create -it #{volumes_args} #{expose_args} --network host --name #{self.image_name} --hostname #{self.project_name} #{self.image_name}\n\n"
       puts "Next steps:"
       puts "  $ docker start #{self.image_name}"
