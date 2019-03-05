@@ -30,8 +30,8 @@ class DockerProjectManager::Init < DockerProjectManager::Command
       raise CommandError.new("Destination #{self.project_name} already exists.")
     end
 
-    unless Dir.exists?(self.template_dir)
-      raise CommandError.new("Template directory #{self.template_dir} doesn't exist")
+    unless Dir.exists?(TEMPLATE_DIR)
+      raise CommandError.new("Template directory #{TEMPLATE_DIR} doesn't exist")
     end
   end
 
