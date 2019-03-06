@@ -27,9 +27,9 @@ describe "create", :command do
 
     it "succeeds and prints out the next steps" do
       expect(stderr).to be_empty
-      expect(stdout[0]).to eql("cd /root/projects/my-project")
+      expect(stdout[0]).to eql("cd #{ENV['HOME']}/projects/my-project")
       expect(stdout[1]).to eql("docker build . -t my-project-dev-env")
-      expect(stdout[2]).to match("docker create -it -v /var/run/docker.sock:/var/run/docker.sock -v /root/projects/my-project/.history:/projects/.history -v /root/projects/my-project/.ssh:/projects/.ssh -v /root/projects/my-project/my-project:/projects/my-project  --network host --name my-project-dev-env --hostname my-project my-project-dev-env")
+      expect(stdout[2]).to match("docker create -it -v /var/run/docker.sock:/var/run/docker.sock -v #{ENV['HOME']}/projects/my-project/.history:/projects/.history -v #{ENV['HOME']}/projects/my-project/.ssh:/projects/.ssh -v #{ENV['HOME']}/projects/my-project/my-project:/projects/my-project  --network host --name my-project-dev-env --hostname my-project my-project-dev-env")
       expect(stdout[3]).to match(/Next steps:/)
       expect(status).to eql(0)
     end
