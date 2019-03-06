@@ -1,4 +1,4 @@
-# require "spec"
+require "spec"
 # require "file_utils"
 
 # def tmp(&block)

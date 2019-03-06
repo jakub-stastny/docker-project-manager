@@ -1,8 +1,8 @@
-# require "command"
-# require "commands/init"
-# require "spec_helper"
+require "command"
+require "commands/init"
+require "spec_helper"
 
-# describe DockerProjectManager::Init do
+describe DockerProjectManager::Init do
 #   describe "#run" do
 #     # it "requires an argument" do
 #     #   expect_raises(DockerProjectManager::NoCommandError) do
@@ -30,4 +30,4 @@
 #       end
 #     end
 #   end
-# end
+end
