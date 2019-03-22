@@ -29,6 +29,8 @@ case $1 in
     # When we run create, the image will be build, the old untagged,
     # and the untagged old image stays.
     ;;
+  # prune)
+  #   run docker system prune
 
   start)
     run docker start $IMAGE_NAME ;;
