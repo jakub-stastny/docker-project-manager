@@ -6,6 +6,12 @@ namespace :docker do
     sh "docker build . -t #{REPO}"
   end
 
+  # The image is updated from Travis CI, this is just ad-hoc.
+  desc "Push the image to DockerHub"
+  task push: :build do
+    sh "docker push #{REPO}"
+  end
+
   desc "Run SH in the image"
   task :sh do
     sh "docker run -it --rm -v $PWD/tmp:/projects --entrypoint /bin/sh #{REPO}"
