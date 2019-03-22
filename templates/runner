@@ -40,17 +40,17 @@ case $1 in
     ;;
   *)
     echo "\
-      $(tput bold)Commands$(tput setaf 7)
+$(tput setaf 5)Commands$(tput setaf 7)
 
-      * $(tput setaf 3)ssh-keygen$(tput setaf 7): Generate SSH key pair.
+* $(tput setaf 3)ssh-keygen$(tput setaf 7): Generate SSH key pair.
 
-      * $(tput setaf 2)create$(tput setaf 7): Build docker image from the Dockerfile and create a new container from this image.
-      * $(tput setaf 2)start$(tput setaf 7): Start the container.
-      * $(tput setaf 2)attach$(tput setaf 7): Create a new tmux session within the container or attach to an existing one.
+* $(tput setaf 2)create$(tput setaf 7): Build docker image from the Dockerfile and create a new container from this image.
+* $(tput setaf 2)start$(tput setaf 7): Start the container.
+* $(tput setaf 2)attach$(tput setaf 7): Create a new tmux session within the container or attach to an existing one.
 
-      * $(tput setaf 1)stop$(tput setaf 7): Stop the container.
-      * $(tput setaf 1)remove$(tput setaf 7): Remove the container, the image as well as all the untagged images.
+* $(tput setaf 1)stop$(tput setaf 7): Stop the container.
+* $(tput setaf 1)remove$(tput setaf 7): Remove the container, the image as well as all the untagged images.
 
-      * $(tput setaf 4)update$(tput setaf 7): Update this script from GitHub.$(tput sgr0)"
+* $(tput setaf 4)update$(tput setaf 7): Update this script from GitHub.$(tput sgr0)"
     ;;
 esac
