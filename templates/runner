@@ -8,36 +8,49 @@
 BASE_DIR=$(pwd)
 PROJECT_NAME=$(basename $(pwd))
 IMAGE_NAME=$PROJECT_NAME-dev-env
+PROJECT_HOST_PATH={{ project_host_path }}
+
+run() {
+  echo "$(tput setaf 6)\$ $(tput setaf 7)$*"
+  "$@"
+}
 
 case $1 in
+  ssh-keygen)
+    run mkdir .ssh && chmod 700 .ssh
+    run ssh-keygen -t rsa -N "" -C $PROJECT_NAME -f .ssh/id_rsa ;;
   create)
-    docker build . -t $IMAGE_NAME
-    docker run --rm -v $BASE_DIR:/projects/$PROJECT_NAME botanicus/docker-project-manager create $IMAGE_NAME
+    run docker build . -t $IMAGE_NAME
+    run docker run --rm -v $BASE_DIR:/projects/$PROJECT_NAME botanicus/docker-project-manager create $PROJECT_NAME $PROJECT_HOST_PATH
     ;;
   rm|remove)
-    docker rm $IMAGE_NAME
+    run docker rm $IMAGE_NAME
     ;;
 
   start)
-    docker start $IMAGE_NAME ;;
+    run docker start $IMAGE_NAME ;;
   stop)
-    docker stop $IMAGE_NAME ;;
+    run docker stop $IMAGE_NAME ;;
 
   a|attach)
-    docker exec -it $IMAGE_NAME zsh -c 'tmux attach-session -d -t sys || (cd sys && tmux new-session -s sys)' ;;
+    run docker exec -it $IMAGE_NAME zsh -c 'tmux attach-session -d -t sys || (cd sys && tmux new-session -s sys)' ;;
 
   update)
     echo "TODO"
     ;;
   *)
-    echo <<-EOF
-      $(tput bold)Usage:\033[0m $0 [create|remove|attach|update]
+    echo "\
+      $(tput bold)Commands$(tput setaf 7)
+
+      * $(tput setaf 3)ssh-keygen$(tput setaf 7): Generate SSH key pair.
 
       * $(tput setaf 2)create$(tput setaf 7): Build docker image from the Dockerfile and create a new container from this image.
-      * $(tput setaf 2)remove$(tput setaf 7): Remove the container, the image as well as all the untagged images.
+      * $(tput setaf 2)start$(tput setaf 7): Start the container.
       * $(tput setaf 2)attach$(tput setaf 7): Create a new tmux session within the container or attach to an existing one.
 
-      * update: Update this script from GitHub.
-    EOF
+      * $(tput setaf 1)stop$(tput setaf 7): Stop the container.
+      * $(tput setaf 1)remove$(tput setaf 7): Remove the container, the image as well as all the untagged images.
+
+      * $(tput setaf 4)update$(tput setaf 7): Update this script from GitHub.$(tput sgr0)"
     ;;
 esac

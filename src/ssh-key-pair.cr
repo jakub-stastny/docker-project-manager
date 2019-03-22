@@ -1,3 +1,7 @@
+# This is currently not being used, because I cannot figure out how to convert the public key into OpenSSH-compatible format.
+# https://github.com/botanicus/docker-project-manager/issues/26
+#
+# Another thing is the comment bit. It might be just a matter of adding it as text at the end of the public key, but it might be more tricky than that.
 require "openssl_ext"
 
 class SSHKeyPair

@@ -44,17 +44,20 @@ class DockerProjectManager::Create < DockerProjectManager::Command
       definition = self.build_definition(lines)
       volumes_args = definition["volume"].map { |path| "-v #{self.overwrite_path(path)}:#{path}" }.join(" ")
       expose_args = definition["expose"].map { |port| "-p #{port}:#{port}" }.join(" ")
-      puts "cd #{self.absolute_host_project_root_path}"
-      puts "docker build . -t #{self.image_name}"
       # Host networking means that the container IP is the same as the host IP (no need to tweak tmux status line).
       # https://docs.docker.com/network/host/
+      puts "RUN THIS:"
+      puts "cd #{self.absolute_host_project_root_path}"
       puts "docker create -it #{volumes_args} #{expose_args} --network host --name #{self.image_name} --hostname #{self.project_name} #{self.image_name}\n\n"
       puts "Next steps:"
+      puts "  $ ./runner ssh-keygen"
       puts "  $ ./runner start"
       puts "  $ ./runner attach"
     end
   end
 
+  # NOTE: Environment variables doesn't need to be passed in args,
+  # having them in Dockerfile is enough.
   private def build_definition(lines : Array(String)) : Hash(String, Array(String))
     lines.grep(/^(VOLUME|EXPOSE)/).reduce(DEFINITION_TEMPLATE.dup) do |buffer, line|
       keyword = line.split(" ").first.downcase

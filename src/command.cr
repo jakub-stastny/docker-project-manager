@@ -40,7 +40,8 @@ module DockerProjectManager
         raise NoCommandError.new(self.commands.keys)
       end
 
-      puts "~ Running command #{args.first} with arguments #{args[1..-1].inspect}"
+      # As per usual, nesting doesn't work.
+      puts "~ #{"Running command".colorize(:light_gray)} #{args.first.colorize(:green)} #{"with arguments".colorize(:light_gray)} #{args[1..-1].inspect.colorize(:yellow)}"
       command_class = self.command(args.first)
       command = command_class.new(args.first, args[1..-1])
       command.validate
