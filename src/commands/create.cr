@@ -35,7 +35,7 @@ class DockerProjectManager::Create < DockerProjectManager::Command
   end
 
   def absolute_host_project_root_path : String
-    File.join(@args[1], self.project_name)
+    File.join(@args[1])
   end
 
   def run : Nil
@@ -46,13 +46,14 @@ class DockerProjectManager::Create < DockerProjectManager::Command
       expose_args = definition["expose"].map { |port| "-p #{port}:#{port}" }.join(" ")
       # Host networking means that the container IP is the same as the host IP (no need to tweak tmux status line).
       # https://docs.docker.com/network/host/
-      puts "RUN THIS:"
-      puts "cd #{self.absolute_host_project_root_path}"
-      puts "docker create -it #{volumes_args} #{expose_args} --network host --name #{self.image_name} --hostname #{self.project_name} #{self.image_name}\n\n"
-      puts "Next steps:"
-      puts "  $ ./runner ssh-keygen"
-      puts "  $ ./runner start"
-      puts "  $ ./runner attach"
+      puts "Next steps:\n".colorize(:magenta).mode(:bold)
+      puts "  #{"$".colorize(:cyan)} #{"docker create -it".colorize(:light_gray)} #{volumes_args.colorize(:yellow)} #{expose_args.colorize(:green)} #{"--network host --name".colorize(:light_gray)} #{self.image_name.colorize(:magenta)} #{"--hostname".colorize(:light_gray)} #{self.project_name.colorize(:cyan)} #{self.image_name.colorize(:magenta)}\n"
+      puts "  #{"$".colorize(:cyan)} #{"./runner start".colorize(:light_gray)}"
+      puts "  #{"$".colorize(:cyan)} #{"./runner attach".colorize(:light_gray)}"
+      puts "\n#{"*".colorize(:green)} If this is an existing project, you'll want to clone the repo (once attached):\n\n"
+      puts "  #{"$".colorize(:cyan)} #{"git clone repo my_repo/.git --bare".colorize(:light_gray)}"
+      puts "  #{"$".colorize(:cyan)} #{"git checkout .".colorize(:light_gray)}\n\n"
+      puts "  This way there's no need to install git on the host machine."
     end
   end
 
