@@ -24,7 +24,10 @@ case $1 in
     run docker run --rm -v $BASE_DIR:/projects/$PROJECT_NAME botanicus/docker-project-manager create $PROJECT_NAME $PROJECT_HOST_PATH
     ;;
   rm|remove)
-    run docker rm $IMAGE_NAME
+    run docker rm $IMAGE_NAME # Remove the container.
+    run docker rmi $IMAGE_NAME # Remove the image.
+    # When we run create, the image will be build, the old untagged,
+    # and the untagged old image stays.
     ;;
 
   start)
