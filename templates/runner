@@ -36,6 +36,7 @@ case $1 in
     run docker exec -it $IMAGE_NAME zsh -c 'tmux attach-session -d -t sys || (cd sys && tmux new-session -s sys)' ;;
 
   update)
+    # Don't forget to copy the value of PROJECT_HOST_PATH.
     echo "TODO"
     ;;
   *)
