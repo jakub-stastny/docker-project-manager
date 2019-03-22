@@ -26,8 +26,8 @@ FROM botanicus/dev:latest
 # However, DPM does dictate the structure, so it is making these assumptions.
 # So if you specify VOLUME {{ project_name}} here, DPM by default will mount
 # such volume to {{ project_name }} within the top-level {{ project_name }} directory.
-VOLUME /projects/.history # Or .bash_history if you are using Bash.
-VOLUME /projects/.ssh
+VOLUME /root/.history # Or .bash_history if you are using Bash.
+VOLUME /root/.ssh
 VOLUME /projects/{{ project_name }}
 
 # Beware, magic ahead!

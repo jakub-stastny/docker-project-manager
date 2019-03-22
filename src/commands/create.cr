@@ -68,8 +68,8 @@ class DockerProjectManager::Create < DockerProjectManager::Command
   end
 
   private def overwrite_path(path) : String
-    if path.match(/^\/projects\//)
-      path.sub(/^\/projects/, self.absolute_host_project_root_path, "..")
+    if path.match(/^\/(projects|root)\//)
+      path.sub(/^\/(projects|root)/, self.absolute_host_project_root_path, "..")
     else
       path
     end
