@@ -11,7 +11,7 @@ IMAGE_NAME=$PROJECT_NAME-dev-env
 PROJECT_HOST_PATH={{ project_host_path }}
 
 run() {
-  echo "$(tput setaf 6)\$ $(tput setaf 7)$@$(tput sgr0)\n"
+  echo "$(tput setaf 6)\$ $(tput setaf 7)$@$(tput sgr0)"
   "$@"
 }
 
