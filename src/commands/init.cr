@@ -69,10 +69,14 @@ class DockerProjectManager::Init < DockerProjectManager::Command
     puts "   #{"$".colorize(:cyan)} #{"./runner ssh-keygen".colorize(:light_gray)}\n\n"
     puts "   Alternatively you can just copy your existing keys from #{"~/.ssh".colorize(:light_gray)}.\n\n"
     puts "   You'll most likely want to add the public key into your"
-    puts "   #{"GitHub".colorize(:yellow)} and/or #{"GitLab".colorize.mode(:bold)} account.\n\n"
-    puts "#{"2.".colorize(:green).mode(:bold)} Build Docker image based on the definition in #{"Dockerfile".colorize(:light_gray)}.\n\n"
+    puts "   #{"GitHub".colorize(:yellow)} and/or #{"GitLab".colorize(:yellow).mode(:bold)} account.\n\n"
+    puts "   #{"*".colorize(:green)} #{"https://github.com/settings/keys".colorize(:blue)}"
+    puts "   #{"*".colorize(:green)} #{"https://gitlab.com/profile/keys".colorize(:blue)}\n\n"
+    puts "#{"2.".colorize(:green).mode(:bold)} Edit #{"Dockerfile".colorize(:light_gray)}.\n\n"
+    puts "  Use it to set environment variables, expose ports and volumes.\n\n"
     puts "   Note that DPM automatically mounts volumes and publishes ports"
     puts "   defined in the Dockerfile.\n\n"
+    puts "#{"3.".colorize(:green).mode(:bold)} Build the image.\n\n"
     puts "   #{"$".colorize(:cyan)} #{"./runner create".colorize(:light_gray)}"
   end
 
