@@ -73,7 +73,7 @@ class DockerProjectManager::Init < DockerProjectManager::Command
     puts "   #{"*".colorize(:green)} #{"https://github.com/settings/keys".colorize(:blue)}"
     puts "   #{"*".colorize(:green)} #{"https://gitlab.com/profile/keys".colorize(:blue)}\n\n"
     puts "#{"2.".colorize(:green).mode(:bold)} Edit #{"Dockerfile".colorize(:light_gray)}.\n\n"
-    puts "  Use it to set environment variables, expose ports and volumes.\n\n"
+    puts "   Use it to set #{"environment variables".colorize(:yellow)}, expose #{"ports".colorize(:yellow)} and #{"volumes".colorize(:yellow)}.\n\n"
     puts "   Note that DPM automatically mounts volumes and publishes ports"
     puts "   defined in the Dockerfile.\n\n"
     puts "#{"3.".colorize(:green).mode(:bold)} Build the image.\n\n"

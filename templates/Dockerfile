@@ -23,10 +23,10 @@ FROM botanicus/dev:latest
 # Docker doesn't support specifying host directory (and host port) through Dockerfile.
 # Quite logically so: there must be no assumption about the host.
 #
-# However, DPM does dictates the structure, so it is making these assumptions.
+# However, DPM does dictate the structure, so it is making these assumptions.
 # So if you specify VOLUME {{ project_name}} here, DPM by default will mount
 # such volume to {{ project_name }} within the top-level {{ project_name }} directory.
-VOLUME /projects/.history
+VOLUME /projects/.history # Or .bash_history if you are using Bash.
 VOLUME /projects/.ssh
 VOLUME /projects/{{ project_name }}
 
