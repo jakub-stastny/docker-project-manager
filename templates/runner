@@ -9,6 +9,7 @@ BASE_DIR=$(pwd)
 PROJECT_NAME=$(basename $(pwd))
 IMAGE_NAME=$PROJECT_NAME-dev-env
 PROJECT_HOST_PATH={{ project_host_path }}
+# TODO: Use {{ projectS_host_path }}/$PROJECT_NAME
 
 run() {
   echo "$(tput setaf 6)\$ $(tput setaf 7)$@$(tput sgr0)"
@@ -59,7 +60,15 @@ case $1 in
 
   update)
     run docker pull botanicus/docker-project-manager
-    run docker run --rm -v $BASE_DIR:/root/project-directory botanicus/docker-project-manager update $PROJECT_HOST_PATH
+
+    # This is a hack, use the update command.
+    run mv runner runner.backup
+    run curl https://raw.githubusercontent.com/botanicus/docker-project-manager/master/templates/runner -o runner
+    run chmod +x runner
+    run sed -i.bak "s|{{ project_host_path }}|$PROJECT_HOST_PATH|" runner
+    run rm runner.bak
+
+    # run docker run --rm -v $BASE_DIR:/root/project-directory botanicus/docker-project-manager update $PROJECT_HOST_PATH
     ;;
   *)
     echo "\

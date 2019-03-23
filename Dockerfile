@@ -10,8 +10,9 @@ RUN export CRYSTAL_PATH=$(crystal env | grep CRYSTAL_PATH | /opt/rubies/*/bin/ru
 
 # Because of HTTP::Client not working with static, removing --static for now.
 # https://github.com/crystal-lang/crystal/issues/6099
-# RUN crystal build --release --static src/docker-project-manager.cr -o /src/project-manager
-RUN crystal build --release src/docker-project-manager.cr -o /src/project-manager
+RUN crystal build --release --static src/docker-project-manager.cr -o /src/project-manager
+# RUN crystal build --release src/docker-project-manager.cr -o /src/project-manager
+# ... but removing it fucks up everything. Awesome shit.
 
 FROM busybox
 WORKDIR /app

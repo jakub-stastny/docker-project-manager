@@ -20,11 +20,11 @@ class DockerProjectManager::Update < DockerProjectManager::Command
   end
 
   def run : Nil
-    Dir.cd("/root/project-directory") do
+    puts "Doesn't work https://github.com/crystal-lang/crystal/issues/6099"
+    exit
 
+    Dir.cd("/root/project-directory") do
       response = HTTP::Client.get(RUNNER_URL)
-      # request = HTTP::Client.new(URI.parse("https://raw.githubusercontent.com"))
-      # response = request.get("/botanicus/docker-project-manager/master/templates/runner")
 
       unless response.status_code == 200
         puts "! ERROR: Cannot download. Status code: #{response.status_code}"
