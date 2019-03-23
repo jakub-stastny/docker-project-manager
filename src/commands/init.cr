@@ -1,5 +1,3 @@
-# require "../ssh-key-pair"
-
 # docker run --rm -v ~/projects:/projects botanicus/docker-project-manager init my-project
 #   /projects is where all the projects are within the Docker image (WORKDIR /projects).
 #
@@ -7,7 +5,6 @@
 # my-blog/README.md
 # my-blog/Dockerfile
 # my-blog/runner
-# my-blog/.ssh/{id_rsa,id_rsa.pub} # currently disabled, see #26.
 
 class DockerProjectManager::Init < DockerProjectManager::Command
   PROJECT_NAME_REGEXP = /{{\s*project_name\s*}}/
@@ -49,11 +46,6 @@ class DockerProjectManager::Init < DockerProjectManager::Command
     Dir.mkdir(self.project_name)
 
     Dir.cd(self.project_name) do
-      # SSH keys.
-      # Dir.mkdir(".ssh", 700)
-      # key_pair = SSHKeyPair.new
-      # key_pair.save(".ssh")
-
       # Project templates.
       Dir.glob("#{TEMPLATE_DIR}/*").each do |path|
         self.process_template(File.new(path))
