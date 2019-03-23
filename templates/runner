@@ -24,6 +24,7 @@ case $1 in
     run docker build . -t $IMAGE_NAME ;;
   create)
     $0 update
+    touch .history .bash_history
     run docker run --rm -v $BASE_DIR:/projects/$PROJECT_NAME botanicus/docker-project-manager create $PROJECT_NAME $PROJECT_HOST_PATH ;;
   rm|remove)
     run docker rm $IMAGE_NAME # Remove the container.
