@@ -64,6 +64,7 @@ case $1 in
     run mv runner runner.backup
     run curl https://raw.githubusercontent.com/botanicus/docker-project-manager/master/templates/runner -o runner
     run chmod +x runner
+    run chmod -x runner.backup
 
     # run docker run --rm -v $BASE_DIR:/root/project-directory botanicus/docker-project-manager update $PROJECT_HOST_PATH
     ;;
