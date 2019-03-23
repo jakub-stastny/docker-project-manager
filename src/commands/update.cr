@@ -26,16 +26,17 @@ class DockerProjectManager::Update < DockerProjectManager::Command
         puts "! ERROR: Cannot download. Status code: #{response.status_code}"
       end
 
-      if response.headers["ETag"] == self.last_etag
-        puts "~ Runner unchanged." and return
+      etag = response.headers["ETag"]
+
+      if etag == self.last_etag
+        puts "~ Runner unchanged." && return
       else
-        puts "~ Updating runner."
+        puts "~ Updating runner #{self.last_etag.inspect} -> #{etag.inspect}."
       end
 
-      body = response.body.lines.join("\n").gsub(PROJECT_HOST_PATH_REGEXP, self.project_host_path)
-
-      lines = body.split("\n")
-      body = [lines[0], "# #{response.headers["ETag"]}", *lines[1..-1]].join("\n")
+      body = response.body.lines.join("\n")
+      body = self.replace_variables(body)
+      body = self.add_etag(body.split("\n"), etag)
 
       FileUtils.mv("runner", "runner.backup")
 
@@ -45,7 +46,15 @@ class DockerProjectManager::Update < DockerProjectManager::Command
     end
   end
 
-  private def last_etag
+  private def last_etag : String
     File.read_lines("runner")[1].sub(/^# /, "")
+  end
+
+  private def add_etag(lines, etag) : String
+    [lines[0], "# #{etag}", lines[1..-1]].flatten.join("\n")
+  end
+
+  private def replace_variables(body) : String
+    body.gsub(PROJECT_HOST_PATH_REGEXP, self.project_host_path)
   end
 end
