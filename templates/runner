@@ -19,10 +19,12 @@ case $1 in
   ssh-keygen)
     run mkdir .ssh && chmod 700 .ssh
     run ssh-keygen -t rsa -N "" -C $PROJECT_NAME -f .ssh/id_rsa ;;
+  build)
+    $0 update
+    run docker build . -t $IMAGE_NAME ;;
   create)
-    run docker build . -t $IMAGE_NAME
-    run docker run --rm -v $BASE_DIR:/projects/$PROJECT_NAME botanicus/docker-project-manager create $PROJECT_NAME $PROJECT_HOST_PATH
-    ;;
+    $0 update
+    run docker run --rm -v $BASE_DIR:/projects/$PROJECT_NAME botanicus/docker-project-manager create $PROJECT_NAME $PROJECT_HOST_PATH ;;
   rm|remove)
     run docker rm $IMAGE_NAME # Remove the container.
     run docker rmi $IMAGE_NAME # Remove the image.
@@ -33,16 +35,31 @@ case $1 in
   #   run docker system prune
 
   start)
-    run docker start $IMAGE_NAME ;;
+    $0 update
+    if docker ps | grep $IMAGE_NAME; then
+      echo "$(tput setaf 1)~ Container $IMAGE_NAME is already running.$(tput sgr0)"
+    else
+      run docker start $IMAGE_NAME
+    fi ;;
   stop)
-    run docker stop $IMAGE_NAME ;;
+    if docker ps | grep $IMAGE_NAME; then
+      run docker stop $IMAGE_NAME
+    else
+      echo "$(tput setaf 1)~ Container $IMAGE_NAME is not running.$(tput sgr0)"
+    fi ;;
+  status)
+    if docker ps | grep $IMAGE_NAME; then
+      echo "$(tput setaf 2)✔ $IMAGE_NAME$(tput sgr0)"
+    else
+      echo "$(tput setaf 1)✗ $IMAGE_NAME$(tput sgr0)"
+    fi ;;
 
   a|attach)
-    run docker exec -it $IMAGE_NAME zsh -c 'tmux attach-session -d -t sys || (cd sys && tmux new-session -s sys)' ;;
+    run docker exec -it $IMAGE_NAME zsh ;;#-c 'tmux attach-session -d -t sys || (cd sys && tmux new-session -s sys)' ;;
 
   update)
-    # Don't forget to copy the value of PROJECT_HOST_PATH.
-    echo "TODO"
+    run docker pull botanicus/docker-project-manager
+    run docker run --rm -v $BASE_DIR:/root/project-directory botanicus/docker-project-manager update $PROJECT_HOST_PATH
     ;;
   *)
     echo "\
@@ -53,6 +70,8 @@ $(tput setaf 5)Commands$(tput setaf 7)
 * $(tput setaf 2)create$(tput setaf 7): Build docker image from the Dockerfile and create a new container from this image.
 * $(tput setaf 2)start$(tput setaf 7): Start the container.
 * $(tput setaf 2)attach$(tput setaf 7): Create a new tmux session within the container or attach to an existing one.
+
+* $(tput setaf 2)status$(tput setaf 7): Whether the container is running or not.
 
 * $(tput setaf 1)stop$(tput setaf 7): Stop the container.
 * $(tput setaf 1)remove$(tput setaf 7): Remove the container, the image as well as all the untagged images.

@@ -8,10 +8,6 @@ targets:
   docker-project-manager:
     main: src/docker-project-manager.cr
 
-dependencies:
-  openssl_ext:
-    github: randomstate/openssl_ext
-
 crystal: 0.27.2
 
 license: MIT
