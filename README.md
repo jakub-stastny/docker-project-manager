@@ -116,4 +116,4 @@ docker image prune
 [BS img]: https://travis-ci.org/botanicus/docker-project-manager.svg?branch=master
 [DH img]: https://img.shields.io/docker/automated/jrottenberg/ffmpeg.svg
 
-[architecture]: https://raw.githubusercontent.com/botanicus/docker-project-manager/f0f39a1cbf6fc42a00626d5470239bcd24028cdb/photo.jpeg
+[architecture]: https://raw.githubusercontent.com/botanicus/docker-project-manager/f0f39a1cbf6fc42a00626d5470239bcd24028cdb/architecture.jpg
