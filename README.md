@@ -21,6 +21,17 @@ Everything else should happen in Docker containers.
 
 Please note that I'm talking about the _development_ phase. This is not an alternative to `docker-compose`: in fact we are using `docker-compose` for managing more complex setup.
 
+# Tutorial
+
+Let's see how we can set up dev environment for a simple React.js project, [my blog](https://github.com/botanicus/blog).
+
+![Use the init command](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/1_init.jpg)
+![Generate SSH keys](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/2_ssh-keygen.jpg)
+![Add the public key to GH](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/3_add_to_gh_keys.jpg)
+![Use runner create](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/4_runner_create.jpg)
+
+# In-depth
+
 ## Copy of development environment
 
 Dotfiles has been around for a while. It's indeed a good idea to have all the shell, Vim and other configuration files in one place and versioned.
