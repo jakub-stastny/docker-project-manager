@@ -1,9 +1,9 @@
 # About
 
 [![Build status][BS img]][Build status]
-[![Microbadger][DH size img][DockerHub size]]
-[![Microbadger][DH version img][DockerHub version]]
-[![Microbadger][DH commit img][DockerHub commit]]
+[![Microbadger][DH size img]][DockerHub size]
+[![Microbadger][DH version img]][DockerHub version]
+[![Microbadger][DH commit img]][DockerHub commit]
 
 Help managing Docker development environment lifecycle.
 
