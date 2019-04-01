@@ -28,6 +28,7 @@ Let's see how we can set up dev environment for a simple React.js project, [my b
 ![Use the init command](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/1_init.jpg)
 ![Generate SSH keys](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/2_ssh-keygen.jpg)
 ![Add the public key to GH](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/3_add_to_gh_keys.jpg)
+![Edit the Dockerfile](https://todo.com)
 ![Use runner create](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/4_runner_create.jpg)
 
 # In-depth
