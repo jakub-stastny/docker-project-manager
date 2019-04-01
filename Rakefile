@@ -10,7 +10,7 @@ namespace :docker do
     sh <<-EOF
       docker build --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
                    --build-arg VCS_REF=`git rev-parse --short HEAD` \
-                   --build-arg VERSION=#{VERSION} . -t #{REPO}
+                   --build-arg VERSION=#{VERSION} . -t #{tag}
     EOF
   end
 
