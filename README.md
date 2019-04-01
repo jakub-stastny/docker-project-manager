@@ -1,7 +1,9 @@
 # About
 
 [![Build status][BS img]][Build status]
-[![DockerHub build][DH img]][DockerHub build status]
+[![](https://images.microbadger.com/badges/image/botanicus/docker-project-manager.svg)](https://microbadger.com/images/botanicus/docker-project-manager "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/botanicus/docker-project-manager.svg)](https://microbadger.com/images/botanicus/docker-project-manager "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/commit/botanicus/docker-project-manager.svg)](https://microbadger.com/images/botanicus/docker-project-manager "Get your own version badge on microbadger.com")
 
 Help managing Docker development environment lifecycle.
 
