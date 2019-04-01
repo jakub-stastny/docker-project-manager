@@ -1,9 +1,9 @@
 # About
 
 [![Build status][BS img]][Build status]
-[![](https://images.microbadger.com/badges/image/botanicus/docker-project-manager.svg)](https://microbadger.com/images/botanicus/docker-project-manager "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/botanicus/docker-project-manager.svg)](https://microbadger.com/images/botanicus/docker-project-manager "Get your own version badge on microbadger.com")
-[![](https://images.microbadger.com/badges/commit/botanicus/docker-project-manager.svg)](https://microbadger.com/images/botanicus/docker-project-manager "Get your own version badge on microbadger.com")
+[![Microbadger][DH size img][DockerHub size]]
+[![Microbadger][DH version img][DockerHub version]]
+[![Microbadger][DH commit img][DockerHub commit]]
 
 Help managing Docker development environment lifecycle.
 
@@ -113,9 +113,11 @@ docker image prune
 ```
 
 [Build status]: https://travis-ci.org/botanicus/docker-project-manager
-[DockerHub build status]: https://hub.docker.com/r/botanicus/docker-project-manager
+[Microbadger]: https://microbadger.com/images/botanicus/docker-project-manager
 
 [BS img]: https://travis-ci.org/botanicus/docker-project-manager.svg?branch=master
-[DH img]: https://img.shields.io/docker/pulls/botanicus/docker-project-manager.svg
+[DH size img]: https://images.microbadger.com/badges/image/botanicus/docker-project-manager.svg
+[DH version img]: https://images.microbadger.com/badges/version/botanicus/docker-project-manager.svg
+[DH commit img]: https://images.microbadger.com/badges/commit/botanicus/docker-project-manager.svg
 
-[architecture]: https://raw.githubusercontent.com/botanicus/docker-project-manager/f0f39a1cbf6fc42a00626d5470239bcd24028cdb/doc/architecture.jpg
+[architecture]: https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/architecture.jpg
