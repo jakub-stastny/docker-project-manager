@@ -1,4 +1,5 @@
 FROM botanicus/dev:latest as builder
+
 RUN apt-get install -y crystal libgmp-dev
 WORKDIR /src
 #COPY shard.* ./
@@ -15,6 +16,22 @@ RUN crystal build --release --static src/docker-project-manager.cr -o /src/proje
 # ... but removing it fucks up everything. Awesome shit.
 
 FROM busybox
+
+# For microbadger.com
+# Build-time metadata as defined at http://label-schema.org
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name="docker-project-manager" \
+      org.label-schema.description="Quickly spin off Docker containers for prototyping and development with your full dev environment, dotfiles and tools of choice." \
+      org.label-schema.url="https://github.com/botanicus/docker-project-manager" \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/botanicus/docker-project-manager" \
+      org.label-schema.vendor="James C Russell" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.schema-version="1.0"
+
 WORKDIR /app
 COPY --from=builder /src/project-manager /app/project-manager
 COPY templates /app/templates

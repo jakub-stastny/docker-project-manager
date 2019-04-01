@@ -1,14 +1,22 @@
+require 'yaml'
+
 REPO = 'botanicus/docker-project-manager'
+VERSION = YAML.load_file('shard.yml')['version']
 
 namespace :docker do
   desc "Build the image"
-  task :build do
-    sh "docker build . -t #{REPO}"
+  task :build, :tag do |_, args|
+    tag = args[:tag] ? "#{REPO}:#{args[:tag]}" : REPO
+    sh <<-EOF
+      docker build --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
+                   --build-arg VCS_REF=`git rev-parse --short HEAD` \
+                   --build-arg VERSION=#{VERSION} . -t #{REPO}
+    EOF
   end
 
   # The image is updated from Travis CI, this is just ad-hoc.
   desc "Push the image to DockerHub"
-  task push: :build do
+  task :push do
     sh "docker push #{REPO}"
   end
 

@@ -22,7 +22,7 @@ jobs:
         # so I put it into https://travis-ci.org/botanicus/docker-project-manager/settings
         DOCKER_USERNAME: botanicus
       script:
-      - docker build . -t botanicus/docker-project-manager:test
+      - rake docker:build[test]
       - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
       - docker push $TRAVIS_REPO_SLUG:test
 
