@@ -26,6 +26,7 @@ Please note that I'm talking about the _development_ phase. This is not an alter
 Let's see how we can set up dev environment for a simple React.js project, [my blog](https://github.com/botanicus/blog).
 
 ![Use the init command](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/1_init.jpg)
+
 ![Generate SSH keys](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/2_ssh-keygen.jpg)
 ![Add the public key to GH](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/3_add_to_gh_keys.jpg)
 ![Edit the Dockerfile](https://todo.com)
