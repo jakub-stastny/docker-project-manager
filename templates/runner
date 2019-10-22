@@ -71,8 +71,9 @@ case $1 in
 $(tput setaf 5)Commands$(tput setaf 7)
 
 * $(tput setaf 3)ssh-keygen$(tput setaf 7): Generate SSH key pair.
+* $(tput setaf 3)build$(tput setaf 7): Build the dev image.
 
-* $(tput setaf 2)create$(tput setaf 7): Build docker image from the Dockerfile and create a new container from this image.
+* $(tput setaf 2)create$(tput setaf 7): Create a new container from this image (make sure the built image is up to date).
 * $(tput setaf 2)start$(tput setaf 7): Start the container.
 * $(tput setaf 2)attach$(tput setaf 7): Create a new tmux session within the container or attach to an existing one.
 
