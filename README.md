@@ -23,14 +23,14 @@ Please note that I'm talking about the _development_ phase. This is not an alter
 
 # Tutorial
 
-Let's see how we can set up dev environment for a simple React.js project, [my blog](https://github.com/botanicus/blog).
+Let's see how we can set up dev environment for a simple React.js project, [my blog](https://github.com/jakub-stastny/blog).
 
-![Use the init command](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/1_init.jpg)
+![Use the init command](https://raw.githubusercontent.com/jakub-stastny/docker-project-manager/master/doc/1_init.jpg)
 
-![Generate SSH keys](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/2_ssh-keygen.jpg)
-![Add the public key to GH](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/3_add_to_gh_keys.jpg)
+![Generate SSH keys](https://raw.githubusercontent.com/jakub-stastny/docker-project-manager/master/doc/2_ssh-keygen.jpg)
+![Add the public key to GH](https://raw.githubusercontent.com/jakub-stastny/docker-project-manager/master/doc/3_add_to_gh_keys.jpg)
 ![Edit the Dockerfile](https://todo.com)
-![Use runner create](https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/4_runner_create.jpg)
+![Use runner create](https://raw.githubusercontent.com/jakub-stastny/docker-project-manager/master/doc/4_runner_create.jpg)
 
 # In-depth
 
@@ -90,12 +90,10 @@ Note that there's no global state. It makes sense to isolate everything per proj
 
 With a vanilla setup like this, there's little reason to scrape the dev VPS, as there's virtually no risk we'd mess it up, creating the need to scrape it and reinstall it.
 
-With that said, I'd like to add [Dropbox sync](https://github.com/botanicus/docker-project-manager/issues/7) in the future.
-
 # Usage
 
 ```
-docker pull botanicus/docker-project-manager
+docker pull jakubstastny/docker-project-manager
 mkdir ~/projects
 ```
 
@@ -104,7 +102,7 @@ mkdir ~/projects
 _TODO: Document using custom templates via getting the DPM templates using `docker cp`, tweaking them, and then mounting directory with these as a volume over the one in DPM._
 
 ```
-docker run -it --rm -v ~/projects:/projects botanicus/docker-project-manager init my-blog
+docker run -it --rm -v ~/projects:/projects jakubstastny/docker-project-manager init my-blog
 ```
 
 # Development
@@ -125,12 +123,12 @@ docker system df
 docker image prune
 ```
 
-[Build status]: https://travis-ci.org/botanicus/docker-project-manager
-[Microbadger]: https://microbadger.com/images/botanicus/docker-project-manager
+[Build status]: https://travis-ci.org/jakub-stastny/docker-project-manager
+[Microbadger]: https://microbadger.com/images/jakub-stastny/docker-project-manager
 
-[BS img]: https://travis-ci.org/botanicus/docker-project-manager.svg?branch=master
-[DH size img]: https://images.microbadger.com/badges/image/botanicus/docker-project-manager.svg
-[DH version img]: https://images.microbadger.com/badges/version/botanicus/docker-project-manager.svg
-[DH commit img]: https://images.microbadger.com/badges/commit/botanicus/docker-project-manager.svg
+[BS img]: https://travis-ci.org/jakub-stastny/docker-project-manager.svg?branch=master
+[DH size img]: https://images.microbadger.com/badges/image/jakub-stastny/docker-project-manager.svg
+[DH version img]: https://images.microbadger.com/badges/version/jakub-stastny/docker-project-manager.svg
+[DH commit img]: https://images.microbadger.com/badges/commit/jakub-stastny/docker-project-manager.svg
 
-[architecture]: https://raw.githubusercontent.com/botanicus/docker-project-manager/master/doc/architecture.jpg
+[architecture]: https://raw.githubusercontent.com/jakub-stastny/docker-project-manager/master/doc/architecture.jpg

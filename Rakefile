@@ -1,6 +1,6 @@
 require 'yaml'
 
-REPO = 'botanicus/docker-project-manager'
+REPO = 'jakubstastny/docker-project-manager'
 VERSION = YAML.load_file('shard.yml')['version']
 
 namespace :docker do
@@ -29,7 +29,7 @@ namespace :docker do
     desc "Manually test the init command"
     task :init do
       sh "rm -rf tmp &> /dev/null; mkdir tmp"
-      sh "docker run -it --rm -v $PWD/tmp:/projects botanicus/docker-project-manager init my-blog"
+      sh "docker run -it --rm -v $PWD/tmp:/projects #{REPO} init my-blog"
     end
   end
 end

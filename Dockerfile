@@ -1,4 +1,4 @@
-FROM botanicus/dev:latest as builder
+FROM jakubstastny/dev:latest as builder
 
 RUN apt-get install -y crystal libgmp-dev
 WORKDIR /src
@@ -25,10 +25,10 @@ ARG VERSION
 LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.name="docker-project-manager" \
       org.label-schema.description="Quickly spin off Docker containers for prototyping and development with your full dev environment, dotfiles and tools of choice." \
-      org.label-schema.url="https://github.com/botanicus/docker-project-manager" \
+      org.label-schema.url="https://github.com/jakub-stastny/docker-project-manager" \
       org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/botanicus/docker-project-manager" \
-      org.label-schema.vendor="James C Russell" \
+      org.label-schema.vcs-url="https://github.com/jakub-stastny/docker-project-manager" \
+      org.label-schema.vendor="Jakub Šťastný" \
       org.label-schema.version=$VERSION \
       org.label-schema.schema-version="1.0"
 

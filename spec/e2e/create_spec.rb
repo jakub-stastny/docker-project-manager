@@ -3,7 +3,7 @@ require "e2e/spec_helper"
 describe "create", :command do
   context "with no arguments" do
     let(:command) do
-      "docker run --rm botanicus/docker-project-manager create"
+      "docker run --rm jakubstastny/docker-project-manager create"
     end
 
     it "fails with an error message" do
@@ -20,8 +20,8 @@ describe "create", :command do
   context "with two arguments" do
     let(:command) do
       <<~EOF
-        docker run --rm -v $PWD/tmp:/projects botanicus/docker-project-manager init my-project > /dev/null
-        docker run --rm -v $PWD/tmp:/projects botanicus/docker-project-manager create my-project ~/projects
+        docker run --rm -v $PWD/tmp:/projects jakubstastny/docker-project-manager init my-project > /dev/null
+        docker run --rm -v $PWD/tmp:/projects jakubstastny/docker-project-manager create my-project ~/projects
       EOF
     end
 

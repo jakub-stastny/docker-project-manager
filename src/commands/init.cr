@@ -1,4 +1,4 @@
-# docker run --rm -v ~/projects:/projects botanicus/docker-project-manager init my-project
+# docker run --rm -v ~/projects:/projects jakubstastny/docker-project-manager init my-project
 #   /projects is where all the projects are within the Docker image (WORKDIR /projects).
 #
 # Creates:

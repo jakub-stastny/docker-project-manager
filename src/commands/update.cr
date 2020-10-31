@@ -3,7 +3,7 @@ require "file_utils"
 
 class DockerProjectManager::Update < DockerProjectManager::Command
   PROJECT_HOST_PATH_REGEXP = /{{\s*project_host_path\s*}}/ # Copied from init. Refactor.
-  RUNNER_URL = "https://raw.githubusercontent.com/botanicus/docker-project-manager/master/templates/runner"
+  RUNNER_URL = "https://raw.githubusercontent.com/jakub-stastny/docker-project-manager/master/templates/runner"
 
   def usage : String
     "#{@name} [project_host_path]"

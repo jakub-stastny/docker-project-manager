@@ -3,7 +3,7 @@ require "e2e/spec_helper"
 describe "init", :command do
   context "with no arguments" do
     let(:command) do
-      "docker run --rm botanicus/docker-project-manager init"
+      "docker run --rm jakubstastny/docker-project-manager init"
     end
 
     it "fails with an error message" do
@@ -15,7 +15,7 @@ describe "init", :command do
 
   context "with one argument" do
     let(:command) do
-      "docker run --rm -v $PWD/tmp:/projects botanicus/docker-project-manager init my-project"
+      "docker run --rm -v $PWD/tmp:/projects jakubstastny/docker-project-manager init my-project"
     end
 
     it "succeeds and prints out the next steps" do
