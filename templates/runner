@@ -26,7 +26,7 @@ case $1 in
   create)
     $0 update
     touch .history
-    run docker run --rm -v $BASE_DIR:/projects/$PROJECT_NAME jakub-stastny/docker-project-manager create $PROJECT_NAME $PROJECT_HOST_PATH ;;
+    run docker run --rm -v $BASE_DIR:/projects/$PROJECT_NAME jakubstastny/docker-project-manager create $PROJECT_NAME $PROJECT_HOST_PATH ;;
   rm|remove)
     run docker rm $IMAGE_NAME # Remove the container.
     ;;
@@ -61,7 +61,7 @@ case $1 in
 
     # This is a hack, use the update command.
     run mv runner runner.backup
-    run curl https://raw.githubusercontent.com/jakubstastny/docker-project-manager/master/templates/runner -o runner
+    run curl https://raw.githubusercontent.com/jakub-stastny/docker-project-manager/master/templates/runner -o runner
     run chmod +x runner
     run chmod -x runner.backup
 
