@@ -1,5 +1,5 @@
 name: docker-project-manager
-version: 0.1.0
+version: 1.0.0
 
 authors:
   - Jakub Šťastný <jakub.stastny.pt+git@gmail.com>
@@ -8,6 +8,6 @@ targets:
   docker-project-manager:
     main: src/docker-project-manager.cr
 
-crystal: 0.27.2
+crystal: 1.0.0
 
 license: MIT
