@@ -1,4 +1,4 @@
-require "e2e/spec_helper"
+require "spec_helper"
 
 describe "init", :command do
   context "with no arguments" do
