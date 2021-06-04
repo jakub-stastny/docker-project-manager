@@ -6,25 +6,28 @@ start-emacs-session
 rename-first-tab
 
 # Custom functions & aliases.
+DH_REPO=jakubstastny/docker-project-manager
+
 rspec() {
   bundle exec rspec
 }
 
+build() {
+  # tag = args[:tag] ? "#{REPO}:#{args[:tag]}" : REPO
+  tag=$DH_REPO
+  docker build --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
+               --build-arg VCS_REF=`git rev-parse --short HEAD` \
+               --build-arg VERSION=$(egrep '^version: ' shard.yml | awk '{ print $2 }') . -t $tag
+}
+
+push() {
+  docker push $DH_REPO
+}
+
 report-custom-functions
 
-# REPO = 'jakubstastny/docker-project-manager'
 # VERSION = YAML.load_file('shard.yml')['version']
 
-# namespace :docker do
-#   desc "Build the image"
-#   task :build, :tag do |_, args|
-#     tag = args[:tag] ? "#{REPO}:#{args[:tag]}" : REPO
-#     sh <<-EOF
-#       docker build --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
-#                    --build-arg VCS_REF=`git rev-parse --short HEAD` \
-#                    --build-arg VERSION=#{VERSION} . -t #{tag}
-#     EOF
-#   end
 
 #   # The image is updated from Travis CI, this is just ad-hoc.
 #   desc "Push the image to DockerHub"
