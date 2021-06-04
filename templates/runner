@@ -26,7 +26,11 @@ case $1 in
   create)
     $0 update
     touch .history
-    run docker run --rm -v $BASE_DIR:/projects/$PROJECT_NAME jakubstastny/docker-project-manager create $PROJECT_NAME $PROJECT_HOST_PATH ;;
+    if test "$1" = "--show-instructions"; then
+      run docker run --rm -v $BASE_DIR:/projects/$PROJECT_NAME jakubstastny/docker-project-manager create $PROJECT_NAME $PROJECT_HOST_PATH $*
+    else
+      docker run --rm -v $BASE_DIR:/projects/$PROJECT_NAME jakubstastny/docker-project-manager create $PROJECT_NAME $PROJECT_HOST_PATH $* | sh
+    fi ;;
   rm|remove)
     run docker rm $IMAGE_NAME # Remove the container.
     ;;

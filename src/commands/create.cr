@@ -1,7 +1,6 @@
 class DockerProjectManager::Create < DockerProjectManager::Command
   DEFINITION_TEMPLATE = {
-    "volume" => ["/var/run/docker.sock"],
-    "expose" => Array(String).new
+    "volume" => ["/var/run/docker.sock"]
   }
 
   def usage : String
@@ -9,7 +8,7 @@ class DockerProjectManager::Create < DockerProjectManager::Command
   end
 
   def validate : Nil
-    unless @args.size == 2
+    unless @args.size == 2 || (@args.size == 3 && @args.last == "--show-instructions")
       raise CommandArgumentError.new(self.usage)
     end
 
@@ -38,8 +37,8 @@ class DockerProjectManager::Create < DockerProjectManager::Command
     File.join(@args[1])
   end
 
-  def show_instructions_only? : Boolean
-    @args[2] == "--show-instructions"
+  def show_instructions_only? : Bool
+    @args.size > 2 && @args[2] == "--show-instructions"
   end
 
   def run : Nil
@@ -52,16 +51,20 @@ class DockerProjectManager::Create < DockerProjectManager::Command
     end
   end
 
-  def run_show_instructions : Nil
-    # Host networking means that the container IP is the same as the host IP (no need to tweak tmux status line).
-    # https://docs.docker.com/network/host/
+  private def run_show_instructions : Nil
     puts "Next steps:\n".colorize(:magenta).mode(:bold)
-    puts "  #{"$".colorize(:cyan)} #{"docker create -it".colorize(:light_gray)} #{volumes_args.colorize(:yellow)} #{expose_args.colorize(:green)} #{"--network host --name".colorize(:light_gray)} #{self.image_name.colorize(:magenta)} #{"--hostname".colorize(:light_gray)} #{self.project_name.colorize(:cyan)} #{self.image_name.colorize(:magenta)}\n"
+    puts "  #{"$".colorize(:cyan)} #{"docker create -it".colorize(:light_gray)} #{volumes_args.colorize(:yellow)} #{"--network host --name".colorize(:light_gray)} #{self.image_name.colorize(:magenta)} #{"--hostname".colorize(:light_gray)} #{self.project_name.colorize(:cyan)} #{self.image_name.colorize(:magenta)}\n"
     puts "  #{"$".colorize(:cyan)} #{"./runner start".colorize(:light_gray)}"
     puts "  #{"$".colorize(:cyan)} #{"./runner attach".colorize(:light_gray)}"
   end
 
-  def run_print_commands : Nil
-    puts "run docker create -it #{volumes_args} --network host --name #{self.image_name} --hostname #{self.project_name} #{self.image_name}\n"
+  private def run_print_commands : Nil
+    puts "run docker create -it #{volumes_args} --network host --name #{self.image_name} --hostname #{self.project_name} #{self.image_name}"
+  end
+
+  private def volumes_args : String
+    # Dir.glob seems to ignore hidden files, even with .*.
+    shared_files_and_dirs = %x(echo shared/* shared/.*).chomp.split(/\s+/).map { |sp| sp.sub(/shared./, "") } - [".", ".."]
+    shared_files_and_dirs.map { |path| "-v #{self.absolute_host_project_root_path}/shared/#{path}:/root/#{path}" }.join(" ")
   end
 end

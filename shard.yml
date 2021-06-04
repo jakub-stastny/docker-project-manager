@@ -2,7 +2,7 @@ name: docker-project-manager
 version: 0.1.0
 
 authors:
-  - James C Russell <james@101ideas.cz>
+  - Jakub Šťastný <jakub.stastny.pt+git@gmail.com>
 
 targets:
   docker-project-manager:
