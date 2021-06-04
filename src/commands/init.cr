@@ -9,7 +9,7 @@
 class DockerProjectManager::Init < DockerProjectManager::Command
   PROJECT_NAME_REGEXP = /{{\s*project_name\s*}}/
   PROJECT_HOST_PATH_REGEXP = /{{\s*project_host_path\s*}}/
-  TEMPLATE_DIR = "/app/templates"
+  TEMPLATE_DIR = ["templates", "/app/templates"].find { |path| Dir.exists?(path) }
 
   def usage : String
     "#{@name} [project_name] [projects_host_path]"
