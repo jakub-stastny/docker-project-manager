@@ -8,5 +8,5 @@ It is managed by Docker and [docker-project-manager](https://github.com/jakub-st
 
 _For complete documentation please refer to [docker-project-manager](https://github.com/jakub-stastny/docker-project-manager)._
 
-- `dpm up` build the development image and create a container.
-- `dpm sh` launch an interactive shell session within the container.
+- `./runner build && ./runner create && ./runner start` build the development image, spin off a new container and start it.
+- SSH there. You can also use `./runner attach` for quick inspection.
