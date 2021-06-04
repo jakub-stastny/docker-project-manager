@@ -5,7 +5,7 @@ class DockerProjectManager::Create < DockerProjectManager::Command
   }
 
   def usage : String
-    "#{@name} [project_name] [project_host_path]"
+    "#{@name} [project_name] [project_host_path] [--show-instructions]"
   end
 
   def validate : Nil
@@ -38,40 +38,30 @@ class DockerProjectManager::Create < DockerProjectManager::Command
     File.join(@args[1])
   end
 
+  def show_instructions_only? : Boolean
+    @args[2] == "--show-instructions"
+  end
+
   def run : Nil
     Dir.cd(self.project_name) do
-      lines = File.read("Dockerfile").split("\n")
-      definition = self.build_definition(lines)
-      volumes_args = definition["volume"].map { |path| "-v #{self.overwrite_path(path)}:#{path}" }.join(" ")
-      expose_args = definition["expose"].map { |port| "-p #{port}:#{port}" }.join(" ")
-      # Host networking means that the container IP is the same as the host IP (no need to tweak tmux status line).
-      # https://docs.docker.com/network/host/
-      puts "Next steps:\n".colorize(:magenta).mode(:bold)
-      puts "  #{"$".colorize(:cyan)} #{"docker create -it".colorize(:light_gray)} #{volumes_args.colorize(:yellow)} #{expose_args.colorize(:green)} #{"--network host --name".colorize(:light_gray)} #{self.image_name.colorize(:magenta)} #{"--hostname".colorize(:light_gray)} #{self.project_name.colorize(:cyan)} #{self.image_name.colorize(:magenta)}\n"
-      puts "  #{"$".colorize(:cyan)} #{"./runner start".colorize(:light_gray)}"
-      puts "  #{"$".colorize(:cyan)} #{"./runner attach".colorize(:light_gray)}"
-      puts "\n#{"*".colorize(:green)} If this is an existing project, you'll want to clone the repo (once attached):\n\n"
-      puts "  #{"$".colorize(:cyan)} #{"git clone repo my_repo/.git --bare".colorize(:light_gray)}"
-      puts "  #{"$".colorize(:cyan)} #{"git checkout .".colorize(:light_gray)}\n\n"
-      puts "  This way there's no need to install git on the host machine."
+      if self.show_instructions_only?
+        self.run_show_instructions
+      else
+        self.run_print_commands
+      end
     end
   end
 
-  # NOTE: Environment variables doesn't need to be passed in args,
-  # having them in Dockerfile is enough.
-  private def build_definition(lines : Array(String)) : Hash(String, Array(String))
-    lines.grep(/^(VOLUME|EXPOSE)/).reduce(DEFINITION_TEMPLATE.dup) do |buffer, line|
-      keyword = line.split(" ").first.downcase
-      buffer[keyword] << line.split(" ")[1]
-      buffer
-    end
+  def run_show_instructions : Nil
+    # Host networking means that the container IP is the same as the host IP (no need to tweak tmux status line).
+    # https://docs.docker.com/network/host/
+    puts "Next steps:\n".colorize(:magenta).mode(:bold)
+    puts "  #{"$".colorize(:cyan)} #{"docker create -it".colorize(:light_gray)} #{volumes_args.colorize(:yellow)} #{expose_args.colorize(:green)} #{"--network host --name".colorize(:light_gray)} #{self.image_name.colorize(:magenta)} #{"--hostname".colorize(:light_gray)} #{self.project_name.colorize(:cyan)} #{self.image_name.colorize(:magenta)}\n"
+    puts "  #{"$".colorize(:cyan)} #{"./runner start".colorize(:light_gray)}"
+    puts "  #{"$".colorize(:cyan)} #{"./runner attach".colorize(:light_gray)}"
   end
 
-  private def overwrite_path(path) : String
-    if path.match(/^\/(projects|root)\//)
-      path.sub(/^\/(projects|root)/, self.absolute_host_project_root_path, "..")
-    else
-      path
-    end
+  def run_print_commands : Nil
+    puts "run docker create -it #{volumes_args} --network host --name #{self.image_name} --hostname #{self.project_name} #{self.image_name}\n"
   end
 end
