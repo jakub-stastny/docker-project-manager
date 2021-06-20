@@ -14,11 +14,11 @@ run() {
 case $1 in
   ssh-keygen)
     run mkdir .ssh && chmod 700 .ssh
-    run ssh-keygen -t rsa -N "" -C $PROJECT_NAME -f .ssh/id_rsa
+    run ssh-keygen -t rsa -N "" -C $PROJECT_NAME -f .ssh/id_rsa ;;
   build)
     $0 update
-    run docker build . -t $IMAGE_NAME ;;
-    run docker system prune -f
+    run docker build . -t $IMAGE_NAME
+    run docker system prune -f ;;
   create)
     $0 update
     if test "$1" = "--show-instructions"; then
