@@ -9,7 +9,6 @@
 class DockerProjectManager::Init < DockerProjectManager::Command
   PROJECT_NAME_REGEXP = /{{\s*project_name\s*}}/
   PROJECT_HOST_PATH_REGEXP = /{{\s*project_host_path\s*}}/
-  TEMPLATE_DIR = ["templates", "/app/templates"].find { |path| Dir.exists?(path) }
 
   def usage : String
     "#{@name} [project_name] [projects_host_path]"
@@ -28,8 +27,8 @@ class DockerProjectManager::Init < DockerProjectManager::Command
       raise CommandError.new("Destination #{self.project_name} already exists.")
     end
 
-    unless Dir.exists?(TEMPLATE_DIR)
-      raise CommandError.new("Template directory #{TEMPLATE_DIR} doesn't exist")
+    unless Dir.exists?(self.template_dir)
+      raise CommandError.new("Template directory #{self.template_dir} doesn't exist")
     end
   end
 
@@ -37,8 +36,12 @@ class DockerProjectManager::Init < DockerProjectManager::Command
     @args.first
   end
 
+  def projects_root_path : String
+    @args[1]
+  end
+  
   def project_host_path : String
-    File.join(@args[1], self.project_name)
+    File.join(self.projects_root_path, self.project_name)
   end
 
   def run : Nil
@@ -47,7 +50,8 @@ class DockerProjectManager::Init < DockerProjectManager::Command
 
     Dir.cd(self.project_name) do
       # Project templates.
-      Dir.glob("#{TEMPLATE_DIR}/*").each do |path|
+      Dir.glob("#{self.template_dir}/*").each do |path|
+        puts "PROC: #{path}"
         self.process_template(File.new(path))
       end
     end
@@ -86,5 +90,12 @@ class DockerProjectManager::Init < DockerProjectManager::Command
     File.open(File.basename(file.path), "w", mode) do |file|
       file.puts(content)
     end
+  end
+
+  def template_dir() : String
+    custom_templates_path = File.join(self.projects_root_path, "templates")
+    puts "DEBUG: #{custom_templates_path}"
+    puts "DEBUG: #{Dir.exists?(custom_templates_path) ? custom_templates_path : "/app/templates"}"
+    Dir.exists?(custom_templates_path) ? custom_templates_path : "/app/templates"
   end
 end
